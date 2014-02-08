@@ -867,6 +867,14 @@ EnumMemberDeclaration
 	::= AttibutesOpt_Identifier |
 		AttibutesOpt_Identifier EQ ConstantExpression
 		;
+		
+/* -------------------------------------------------- *
+ *                     Delegates                      *
+ * -------------------------------------------------- */
+ 
+delegate_declaration
+	::= Attributes_Opt Modifiers_Opt DELEGATE ReturnType IDENTIFIER LPAREN FormalParameterList_Opt RPAREN SEMICOLON
+		;
 				
 /* -------------------------------------------------- *
  *                   Possibilities                    *
