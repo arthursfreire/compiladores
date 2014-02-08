@@ -10,6 +10,8 @@ namespace SampleNamespace {
 		private struct TesteStruct {};
 		
 		public interface TesteInterface {}
+		
+		private enum EnumTeste {};
 	}
 
 	public interface TesteInterface {
@@ -17,4 +19,6 @@ namespace SampleNamespace {
 	};
 	
 	private struct TesteStruct {};
+	
+	private enum EnumTeste {};
 }
