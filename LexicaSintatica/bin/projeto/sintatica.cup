@@ -351,7 +351,7 @@ non terminal	ArrayInitializer;
 non terminal	VariableInitializerList;
 
 /* -------------------------------------------------- *
- *                     Interfaces                     *
+ *               Interfaces Declarations              *
  * -------------------------------------------------- */
  
 non terminal	InterfaceModifiers;
@@ -364,6 +364,15 @@ non terminal	InterfacePropertyDeclaration;
 non terminal	InterfaceAcessors;
 non terminal	InterfaceEventDeclaration;
 non terminal	InterfaceIndexerDeclaration;
+
+/* -------------------------------------------------- *
+ *                 Enum Declarations                  *
+ * -------------------------------------------------- */
+
+non terminal	EnumBase;
+non terminal	EnumBody;
+non terminal	EnumMemberDeclarations;
+non terminal	EnumMemberDeclaration;
 
 /* -------------------------------------------------- *
  *             Possibilities Declarations             *
@@ -387,6 +396,7 @@ non terminal	AttributesOpt_ModifiersOpt_Event_Type;
 non terminal	Operator_Type_Lparen_Type_Identifier_Rparen;
 non terminal	AttributesOpt_Get_Semicolon;
 non terminal	AttributesOpt_Set_Semicolon;
+non terminal	AttibutesOpt_Identifier;
  
 /* -------------------------------------------------- *
  *                Optional Declarations               *
@@ -420,6 +430,8 @@ non terminal	InterfaceMemberDeclarations_Opt;
 non terminal	StructModifiers_Opt;
 non terminal	StructInterfaces_Opt;
 non terminal	StructMemberDeclarations_Opt;
+non terminal	EnumBase_Opt;
+non terminal	EnumMemberDeclarations_Opt;
 
 
 precedence left SEMICOLON;
@@ -832,6 +844,29 @@ InterfaceEventDeclaration
 InterfaceIndexerDeclaration
 	::= Attributes_Opt Modifiers type THIS LBRACK FormalParameterList RBRACK LBRACE InterfaceAcessors RBRACE
 		;
+		
+/* -------------------------------------------------- *
+ *                        Enum                        *
+ * -------------------------------------------------- */
+ 
+enum_declaration
+	::= Attributes_Opt Modifiers_Opt ENUM IDENTIFIER EnumBase_Opt LBRACE EnumMemberDeclarations_Opt RBRACE Semicolon_Opt |
+		Attributes_Opt Modifiers_Opt ENUM IDENTIFIER EnumBase_Opt LBRACE EnumMemberDeclarations COMMA RBRACE Semicolon_Opt
+		;
+		
+EnumBase
+	::= COLON IntegralType
+		;
+				
+EnumMemberDeclarations
+	::= EnumMemberDeclaration |
+		EnumMemberDeclarations COMMA EnumMemberDeclaration
+		;
+		
+EnumMemberDeclaration
+	::= AttibutesOpt_Identifier |
+		AttibutesOpt_Identifier EQ ConstantExpression
+		;
 				
 /* -------------------------------------------------- *
  *                   Possibilities                    *
@@ -911,6 +946,10 @@ AttributesOpt_Get_Semicolon
 AttributesOpt_Set_Semicolon
 	::= Attributes_Opt SET SEMICOLON
 		;
+		
+AttibutesOpt_Identifier
+	::= Attributes_Opt IDENTIFIER
+		;
  
 /* -------------------------------------------------- *
  *                      Optional                      *
@@ -986,4 +1025,12 @@ InterfaceBase_Opt
 		
 InterfaceMemberDeclarations_Opt
 	::= | InterfaceMemberDeclarations
+		;
+		
+EnumBase_Opt
+	::= | EnumBase
+		;
+		
+EnumMemberDeclarations_Opt
+	::= | EnumMemberDeclarations
 		;
