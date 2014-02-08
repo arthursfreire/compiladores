@@ -340,6 +340,21 @@ non terminal	ArrayInitializer;
 non terminal	VariableInitializerList;
 
 /* -------------------------------------------------- *
+ *                     Interfaces                     *
+ * -------------------------------------------------- */
+ 
+non terminal	InterfaceModifiers;
+non terminal	InterfaceBase;
+non terminal	InterfaceBody;
+non terminal	InterfaceMemberDeclarations;
+non terminal	InterfaceMemberDeclaration;
+non terminal	InterfaceMethodDeclaration;
+non terminal	InterfacePropertyDeclaration;
+non terminal	InterfaceAcessors;
+non terminal	InterfaceEventDeclaration;
+non terminal	InterfaceIndexerDeclaration;
+
+/* -------------------------------------------------- *
  *             Possibilities Declarations             *
  * -------------------------------------------------- */
 
@@ -358,6 +373,8 @@ non terminal	IntegralType_Possibilities;
 non terminal	Colon_ClassType;
 non terminal	AttributesOpt_ModifiersOpt_Event_Type;
 non terminal	Operator_Type_Lparen_Type_Identifier_Rparen;
+non terminal	AttributesOpt_Get_Semicolon;
+non terminal	AttributesOpt_Set_Semicolon;
  
 /* -------------------------------------------------- *
  *                Optional Declarations               *
@@ -386,6 +403,8 @@ non terminal	ConstructorInitializer_Opt;
 non terminal	ArgumentList_Opt;
 non terminal	DimSeparators_Opt;
 non terminal	VariableInitializerList_Opt;
+non terminal	InterfaceBase_Opt;
+non terminal	InterfaceMemberDeclarations_Opt;
 
 
 precedence left SEMICOLON;
@@ -737,6 +756,46 @@ VariableInitializerList
 	::= VariableInitializer |
 		VariableInitializerList COMMA VariableInitializer
 		;
+		
+/* -------------------------------------------------- *
+ *                     Interfaces                     *
+ * -------------------------------------------------- */
+ 
+interface_declaration
+	::= Attributes_Opt Modifiers_Opt INTERFACE IDENTIFIER LBRACE InterfaceMemberDeclarations_Opt RBRACE Semicolon_Opt
+		;
+		
+InterfaceBase
+	::= COLON InterfaceTypeList
+		;
+		
+InterfaceMemberDeclarations
+	::= InterfaceMemberDeclaration |
+		InterfaceMemberDeclarations InterfaceMemberDeclaration
+		;
+
+InterfaceMemberDeclaration
+	::= Attributes_Opt Modifiers ReturnType IDENTIFIER LPAREN FormalParameterList RPAREN SEMICOLON
+		;
+		
+InterfacePropertyDeclaration
+	::= Attributes_Opt Modifiers type IDENTIFIER LBRACE InterfaceAcessors RBRACE
+		;
+		
+InterfaceAcessors
+	::= AttributesOpt_Get_Semicolon |
+		AttributesOpt_Set_Semicolon |
+		AttributesOpt_Get_Semicolon AttributesOpt_Set_Semicolon |
+		AttributesOpt_Set_Semicolon AttributesOpt_Get_Semicolon
+		;
+		
+InterfaceEventDeclaration
+	::= Attributes_Opt Modifiers EVENT type IDENTIFIER SEMICOLON
+		;
+		
+InterfaceIndexerDeclaration
+	::= Attributes_Opt Modifiers type THIS LBRACK FormalParameterList RBRACK LBRACE InterfaceAcessors RBRACE
+		;
 				
 /* -------------------------------------------------- *
  *                   Possibilities                    *
@@ -794,6 +853,14 @@ AttributesOpt_ModifiersOpt_Event_Type
 
 Operator_Type_Lparen_Type_Identifier_Rparen
 	::= OPERATOR type LPAREN type IDENTIFIER RPAREN
+		;
+		
+AttributesOpt_Get_Semicolon
+	::= Attributes_Opt GET SEMICOLON
+		;
+		
+AttributesOpt_Set_Semicolon
+	::= Attributes_Opt SET SEMICOLON
 		;
  
 /* -------------------------------------------------- *
@@ -854,4 +921,12 @@ DimSeparators_Opt
 		
 VariableInitializerList_Opt
 	::= | VariableInitializerList
+		;
+		
+InterfaceBase_Opt
+	::= | InterfaceBase
+		;
+		
+InterfaceMemberDeclarations_Opt
+	::= | InterfaceMemberDeclarations
 		;

@@ -2,8 +2,12 @@ using id;
 
 namespace SampleNamespace {
 
-	new class hello {
-		public void Main();
+	new class TesteClasse {
 		void teste();
+		public void metodo();
 	}
+
+	public interface TesteInterface {
+	
+	};
 }
