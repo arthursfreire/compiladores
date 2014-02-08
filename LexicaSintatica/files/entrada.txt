@@ -12,6 +12,7 @@ namespace SampleNamespace {
 		public interface TesteInterface {}
 		
 		private enum EnumTeste {};
+		private delegate void DelegateTeste ();
 	}
 
 	public interface TesteInterface {
