@@ -329,6 +329,17 @@ non terminal	DestructorDeclaration;
 non terminal	DestructorBody;
 
 /* -------------------------------------------------- *
+ *                Structs Declarations                *
+ * -------------------------------------------------- */
+
+non terminal	StructModifiers;
+non terminal	StructModifier;
+non terminal	StructInterfaces;
+non terminal	StructBody;
+non terminal	StructMemberDeclarations;
+non terminal	StructMemberDeclaration;
+
+/* -------------------------------------------------- *
  *                 Array Declarations                 *
  * -------------------------------------------------- */
 
@@ -365,6 +376,7 @@ non terminal	Modifiers_Opt;
 non terminal	ClassMemberDeclaration_Possibilities;
 non terminal	Operator;
 non terminal	IntegralType_Possibilities;
+non terminal	StructMemberDeclaration_Possibilities;
 
 /* -------------------------------------------------- *
  *               Repetition Declarations              *
@@ -405,6 +417,9 @@ non terminal	DimSeparators_Opt;
 non terminal	VariableInitializerList_Opt;
 non terminal	InterfaceBase_Opt;
 non terminal	InterfaceMemberDeclarations_Opt;
+non terminal	StructModifiers_Opt;
+non terminal	StructInterfaces_Opt;
+non terminal	StructMemberDeclarations_Opt;
 
 
 precedence left SEMICOLON;
@@ -723,6 +738,27 @@ DestructorBody
 		;
 		
 /* -------------------------------------------------- *
+ *                      Structs                      *
+ * -------------------------------------------------- */
+ 
+struct_declaration
+	::= Attributes_Opt Modifiers_Opt STRUCT IDENTIFIER StructInterfaces_Opt LBRACE StructMemberDeclarations_Opt RBRACE Semicolon_Opt
+		;
+ 
+StructInterfaces
+	::= COLON InterfaceTypeList
+		;
+		
+StructMemberDeclarations
+	::= StructMemberDeclaration |
+		StructMemberDeclarations StructMemberDeclaration
+		;
+		
+StructMemberDeclaration
+	::= StructMemberDeclaration_Possibilities
+		;
+		
+/* -------------------------------------------------- *
  *                       Arrays                       *
  * -------------------------------------------------- */
  
@@ -839,6 +875,19 @@ ClassMemberDeclaration_Possibilities
 		TypeDeclaration
 		;
 		
+StructMemberDeclaration_Possibilities
+	::= ConstantDeclaration |
+		FieldDeclaration |
+		MethodDeclaration |
+		PropertyDeclaration |
+		EventDeclaration |
+		IndexerDeclaration |
+		OperatorDeclaration |
+		ConstructorDeclaration |
+		StaticConstructorDeclaration |
+		TypeDeclaration
+		;
+		
 /* -------------------------------------------------- *
  *                     Repetition                     *
  * -------------------------------------------------- */
@@ -909,6 +958,14 @@ GetAcessorDeclaration_Opt
 		
 ConstructorInitializer_Opt
 	::= | ConstructorInitializer
+		;
+		
+StructMemberDeclarations_Opt
+	::= | StructMemberDeclarations
+		;
+		
+StructInterfaces_Opt
+	::= | StructInterfaces
 		;
 		
 ArgumentList_Opt

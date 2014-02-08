@@ -5,9 +5,16 @@ namespace SampleNamespace {
 	new class TesteClasse {
 		void teste();
 		public void metodo();
+		
+		
+		private struct TesteStruct {};
+		
+		public interface TesteInterface {}
 	}
 
 	public interface TesteInterface {
 	
 	};
+	
+	private struct TesteStruct {};
 }
