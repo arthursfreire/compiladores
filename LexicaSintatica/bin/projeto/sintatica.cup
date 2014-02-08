@@ -224,10 +224,6 @@ non terminal	ReferenceType;
 non terminal	ClassType;
 non terminal	InterfaceType;
 non terminal	ArrayType;
-non terminal	NonArrayType;
-non terminal	RankSpecifiers;
-non terminal	RankSpecifier;
-non terminal	DimSeparators;
 non terminal	DelegateType;
 
 /* -------------------------------------------------- *
@@ -335,8 +331,13 @@ non terminal	DestructorBody;
 /* -------------------------------------------------- *
  *                 Array Declarations                 *
  * -------------------------------------------------- */
- 
+
+non terminal	NonArrayType;
+non terminal	RankSpecifiers;
+non terminal	RankSpecifier;
+non terminal	DimSeparators; 
 non terminal	ArrayInitializer;
+non terminal	VariableInitializerList;
 
 /* -------------------------------------------------- *
  *             Possibilities Declarations             *
@@ -384,6 +385,8 @@ non terminal	ConstructorModifiers_Opt;
 non terminal	ConstructorInitializer_Opt;
 non terminal	ArgumentList_Opt;
 non terminal	DimSeparators_Opt;
+non terminal	VariableInitializerList_Opt;
+
 
 precedence left SEMICOLON;
 precedence left COMMA;
@@ -393,6 +396,7 @@ precedence left IDENTIFIER;
 precedence left IF,ELSE,RETURN,CONTINUE,BREAK;
 precedence left LPAREN, RPAREN;
 precedence left STATIC;
+
 
 start with compilation_unit;
 
@@ -700,6 +704,41 @@ DestructorBody
 		;
 		
 /* -------------------------------------------------- *
+ *                       Arrays                       *
+ * -------------------------------------------------- */
+ 
+array_type
+	::= NonArrayType RankSpecifiers
+		;
+		
+NonArrayType
+	::= type;
+	
+RankSpecifiers
+	::= RankSpecifier |
+		RankSpecifiers RankSpecifier
+		;
+
+RankSpecifier
+	::= LBRACK DimSeparators_Opt RBRACK
+		;
+		
+DimSeparators
+	::= COMMA |
+		DimSeparators COMMA
+		;
+		
+ArrayInitializer
+	::= LBRACE VariableInitializerList_Opt RBRACE |
+		LBRACE VariableInitializerList COMMA RBRACE
+		;
+		
+VariableInitializerList
+	::= VariableInitializer |
+		VariableInitializerList COMMA VariableInitializer
+		;
+				
+/* -------------------------------------------------- *
  *                   Possibilities                    *
  * -------------------------------------------------- */
  
@@ -807,4 +846,12 @@ ConstructorInitializer_Opt
 		
 ArgumentList_Opt
 	::= | ArgumentList
+		;
+
+DimSeparators_Opt
+	::= | DimSeparators
+		;
+		
+VariableInitializerList_Opt
+	::= | VariableInitializerList
 		;
