@@ -1,0 +1,9 @@
+using id;
+
+namespace SampleNamespace {
+
+	new class hello {
+		public void Main();
+		void teste();
+	}
+}

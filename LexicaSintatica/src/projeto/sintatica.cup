@@ -1,0 +1,810 @@
+package projeto;
+
+import java_cup.runtime.*;
+
+parser code {: 
+     public void report_error(String message, Object info) {
+   
+        StringBuffer m = new StringBuffer("Error");
+   
+        if (info instanceof java_cup.runtime.Symbol) {
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+            if (s.left >= 0) {
+                /* Add to the end of the StringBuffer error message
+                   the line number of the error in the input. */
+                m.append(" in line "+(s.left+1));   
+                /* Check if the column number in the input is greater
+                   or equal to zero. */
+                if (s.right >= 0)                    
+                    /* Add to the end of the StringBuffer error message
+                       the column number of the error in the input. */
+                    m.append(", column "+(s.right+1));
+            }
+        }
+	
+        m.append(" : "+message);
+        System.err.println(m);
+    }
+
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+        throw new RuntimeException(message);
+        //System.exit(1);
+    }
+   
+:};
+
+/* -------------------------------------------------- *
+ *            Key Words Declarations                  *
+ * -------------------------------------------------- */
+
+terminal	ABSTRACT;
+terminal	AS;
+terminal	BASE;
+terminal 	BOOL;
+terminal 	BREAK;
+terminal	BYTE;
+terminal	CASE;
+terminal	CATCH;
+terminal	CHAR;
+terminal	CHECKED;
+terminal	CLASS;
+terminal	CONST;
+terminal	CONTINUE;
+terminal	DECIMAL;
+terminal	DEFAULT;
+terminal	DELEGATE;
+terminal	DO;
+terminal	DOUBLE;
+terminal	ELSE;
+terminal	ENUM;
+terminal	EVENT;
+terminal	EXPLICIT;
+terminal	EXTERN;
+terminal	FINALLY;
+terminal	FIXED;
+terminal	FLOAT;
+terminal	FOR;
+terminal	FOREACH;
+terminal	GOTO;
+terminal	IF;
+terminal	IMPLICIT;
+terminal	IN;
+terminal	INT;
+terminal	INTERFACE;
+terminal	INTERNAL;
+terminal	IS;
+terminal	LOCK;
+terminal	LONG;
+terminal	NAMESPACE;
+terminal	NEW;
+terminal	OBJECT;
+terminal	OPERATOR;
+terminal	OUT;
+terminal	OVERRIDE;
+terminal	PARAMS;
+terminal	PRIVATE;
+terminal	PROTECTED;
+terminal	PUBLIC;
+terminal	READONLY;
+terminal	REF;
+terminal	RETURN;
+terminal	SBYTE;
+terminal	SEALED;
+terminal	SHORT;
+terminal	SIZEOF;
+terminal	STACKALLOC;
+terminal	STATIC;
+terminal	STRING;
+terminal	STRUCT;
+terminal	SWITCH;
+terminal	THIS;
+terminal	THROW;
+terminal	TRY;
+terminal	TYPEOF;
+terminal	UINT;
+terminal	ULONG;
+terminal	UNCHECKED;
+terminal	UNSAFE;
+terminal	USHORT;
+terminal	USING;
+terminal	VIRTUAL;
+terminal	VOID;
+terminal	VOLATILE;
+terminal	WHILE;
+
+
+/* -------------------------------------------------- *
+ *            Boolean Literals Declarations           *
+ * -------------------------------------------------- */
+ 
+ terminal	TRUE;
+ terminal	FALSE;
+ 
+ 
+/* -------------------------------------------------- *
+ *            Null Literal Declarations               *
+ * -------------------------------------------------- */
+ 
+terminal	NULL;
+ 
+/* -------------------------------------------------- *
+ *            Operators and Punctuators Declarations  *
+ * -------------------------------------------------- */
+ 
+terminal	EQ;
+terminal	GT;
+terminal	LT;
+terminal	NOT;
+terminal	COMP;
+terminal	QUESTION;
+terminal	EQEQ;
+terminal	LTEQ;
+terminal	GTEQ;
+terminal	NOTEQ;
+terminal	ANDAND;
+terminal	OROR;
+terminal	PLUSPLUS;
+terminal	MINUSMINUS;
+terminal	PLUS;
+terminal	MINUS;
+terminal	MULT;
+terminal	DIV;
+terminal	AND;
+terminal	OR;
+terminal	XOR;
+terminal	MOD;
+terminal	LSHIFT;
+terminal	RSHIFT;
+terminal	PLUSEQ;
+terminal	MINUSEQ;
+terminal	MULTEQ;
+terminal	DIVEQ;
+terminal	ANDEQ;
+terminal	OREQ;
+terminal	XOREQ;
+terminal	MODEQ;
+terminal	LSHIFTEQ;
+terminal	RSHIFTEQ;
+terminal	LPAREN;
+terminal	RPAREN;
+terminal	LBRACE;
+terminal	RBRACE;
+terminal	LBRACK;
+terminal	RBRACK;
+terminal	COLON;
+terminal	SEMICOLON;
+terminal	COMMA;
+terminal	DOT;
+
+terminal	IDENTIFIER;
+terminal	INTEGER_LITERAL;
+terminal	REAL_LITERAL;
+terminal	STRING_LITERAL;
+
+terminal	GET;
+terminal	SET;
+
+terminal	ADD;
+terminal	REMOVE;
+
+/* -------------------------------------------------- *
+ *            Main Productions Declarations           *
+ * -------------------------------------------------- */
+ 
+non terminal	namespace_name;
+non terminal	type_name;
+non terminal	namespace_or_type_name;
+non terminal	type;
+non terminal	variable_reference;
+non terminal	argument_list;
+non terminal	statement;
+non terminal	compilation_unit;
+non terminal	class_declaration;
+non terminal	struct_declaration;
+non terminal	array_type;
+non terminal	interface_declaration;
+non terminal	enum_declaration;
+non terminal	delegate_declaration;
+non terminal	global_attributes;
+non terminal	attributes;
+
+/* -------------------------------------------------- *
+ *                 Types Declarations                 *
+ * -------------------------------------------------- */
+
+non terminal	ValueType;
+non terminal	StructType;
+non terminal	SimpleType;
+non terminal	NumericType;
+non terminal	IntegralType;
+non terminal	FloatingPointType;
+non terminal	EnumType;
+non terminal	ReferenceType;
+non terminal	ClassType;
+non terminal	InterfaceType;
+non terminal	ArrayType;
+non terminal	NonArrayType;
+non terminal	RankSpecifiers;
+non terminal	RankSpecifier;
+non terminal	DimSeparators;
+non terminal	DelegateType;
+
+/* -------------------------------------------------- *
+ *              Expressions Declarations              *
+ * -------------------------------------------------- */
+
+non terminal	ArgumentList;
+non terminal	Expression;
+non terminal	ConstantExpression;
+
+/* -------------------------------------------------- *
+ *              Statements Declarations               *
+ * -------------------------------------------------- */
+non terminal	Block;
+
+/* -------------------------------------------------- *
+ *               Namespace Declarations               *
+ * -------------------------------------------------- */
+
+non terminal	UsingDirectives;
+non terminal	NamespaceMemberDeclarations;
+non terminal	NamespaceMemberDeclaration;
+non terminal	NamespaceDeclaration;
+non terminal	QualifiedIdentifier;
+non terminal	NamespaceBody;
+non terminal	UsingDirective;
+non terminal	UsingAliasDirective;
+non terminal	UsingNamespaceDirective;
+non terminal	TypeDeclaration;
+
+/* -------------------------------------------------- *
+ *                Classes Declarations                *
+ * -------------------------------------------------- */
+ 
+non terminal	ClassModifiers;
+non terminal	ClassModifier;
+non terminal	ClassBase;
+non terminal	InterfaceTypeList;
+non terminal	ClassBody;
+non terminal	ClassMemberDeclarations;
+non terminal	ClassMemberDeclaration;
+non terminal	ConstantDeclaration;
+non terminal	ConstantModifiers;
+non terminal	ConstantModifier;
+non terminal	ConstantDeclarators;
+non terminal	ConstantDeclarator;
+non terminal	FieldDeclaration;
+non terminal	FieldModifiers;
+non terminal	FieldModifier;
+non terminal	VariableDeclarators;
+non terminal	VariableDeclarator;
+non terminal	VariableInitializer;
+non terminal	MethodDeclaration;
+non terminal	MethodHeader;
+non terminal	MethodModifiers;
+non terminal	MethodModifier;
+non terminal	ReturnType;
+non terminal	MemberName;
+non terminal	MethodBody;
+non terminal	FormalParameterList;
+non terminal	FixedParameters;
+non terminal	FixedParameter;
+non terminal	ParameterModifier;
+non terminal	ParameterArray;
+non terminal	PropertyDeclaration;
+non terminal	PropertyModifiers;
+non terminal	PropertyModifier;
+non terminal	AcessorDeclarations;
+non terminal	GetAcessorDeclaration;
+non terminal	SetAcessorDeclaration;
+non terminal	AcessorBody;
+non terminal	EventDeclaration;
+non terminal	EventModifiers;
+non terminal	EventModifier;
+non terminal	EventAcessorDeclarations;
+non terminal	EventAcessorDeclaration;
+non terminal	AddAcessorDeclaration;
+non terminal	RemoveAcessorDeclaration;
+non terminal	IndexerDeclaration;
+non terminal	IndexerModifiers;
+non terminal	IndexerModifier;
+non terminal	IndexerDeclarator;
+non terminal	OperatorDeclaration;
+non terminal	OperatorModifiers;
+non terminal	OperatorModifier;
+non terminal	OperatorDeclarator;
+non terminal	UnaryOperatorDeclarator;
+non terminal	OverloadableUnaryOperator;
+non terminal	BinaryOperatorDeclarator;
+non terminal	OverloadableBinaryOperator;
+non terminal	ConversionOperatorDeclarator;
+non terminal	OperatorBody;
+non terminal	ConstructorDeclaration;
+non terminal	ConstructorModifiers;
+non terminal	ConstructorModifier;
+non terminal	ConstructorDeclarator;
+non terminal	ConstructorInitializer;
+non terminal	ConstructorBody;
+non terminal	StaticConstructorDeclaration;
+non terminal	StaticConstructorModifiers;
+non terminal	StaticConstructorBody;
+non terminal	DestructorDeclaration;
+non terminal	DestructorBody;
+
+/* -------------------------------------------------- *
+ *                 Array Declarations                 *
+ * -------------------------------------------------- */
+ 
+non terminal	ArrayInitializer;
+
+/* -------------------------------------------------- *
+ *             Possibilities Declarations             *
+ * -------------------------------------------------- */
+
+non terminal	Modifier;
+non terminal	Modifier_Opt;
+non terminal	Modifiers;
+non terminal	Modifiers_Opt;
+non terminal	ClassMemberDeclaration_Possibilities;
+non terminal	Operator;
+non terminal	IntegralType_Possibilities;
+
+/* -------------------------------------------------- *
+ *               Repetition Declarations              *
+ * -------------------------------------------------- */
+ 
+non terminal	Colon_ClassType;
+non terminal	AttributesOpt_ModifiersOpt_Event_Type;
+non terminal	Operator_Type_Lparen_Type_Identifier_Rparen;
+ 
+/* -------------------------------------------------- *
+ *                Optional Declarations               *
+ * -------------------------------------------------- */
+
+non terminal	UsingDirectives_Opt;
+non terminal	GlobalAttributes_Opt;
+non terminal	NamespaceMemberDeclarations_Opt;
+non terminal	Semicolon_Opt;
+non terminal	Attributes_Opt;
+non terminal	ClassModifiers_Opt;
+non terminal	ClassBase_Opt;
+non terminal	ClassMemberDeclarations_Opt;
+non terminal	ConstantModifiers_Opt;
+non terminal	FieldModifiers_Opt;
+non terminal	MethodModifiers_Opt;
+non terminal	FormalParameterList_Opt;
+non terminal	ParameterModifier_Opt;
+non terminal	PropertyModifiers_Opt;
+non terminal	SetAcessorDeclaration_Opt;
+non terminal	GetAcessorDeclaration_Opt;
+non terminal	EventModifiers_Opt;
+non terminal	IndexerModifiers_Opt;
+non terminal	ConstructorModifiers_Opt;
+non terminal	ConstructorInitializer_Opt;
+non terminal	ArgumentList_Opt;
+non terminal	DimSeparators_Opt;
+
+precedence left SEMICOLON;
+precedence left COMMA;
+precedence left NOT,COMP;
+precedence left MINUS,PLUS;
+precedence left IDENTIFIER;
+precedence left IF,ELSE,RETURN,CONTINUE,BREAK;
+precedence left LPAREN, RPAREN;
+precedence left STATIC;
+
+start with compilation_unit;
+
+/* ################################################## */
+/* #################### GRAMMAR ##################### */
+/* ################################################## */
+
+
+/* -------------------------------------------------- *
+ *                   Basic Concepts                   *
+ * -------------------------------------------------- */
+
+namespace_name
+	::= namespace_or_type_name
+		;
+		
+type_name
+	::= namespace_or_type_name
+		;
+		
+namespace_or_type_name
+	::= IDENTIFIER |
+		namespace_or_type_name DOT IDENTIFIER
+		;
+		
+/* -------------------------------------------------- *
+ *                       Types                        *
+ * -------------------------------------------------- */
+
+
+/* -------------------------------------------------- *
+ *                     Namespaces                     *
+ * -------------------------------------------------- */
+
+compilation_unit
+	::= UsingDirectives_Opt GlobalAttributes_Opt NamespaceMemberDeclarations_Opt
+		;
+
+
+NamespaceDeclaration
+	::= NAMESPACE QualifiedIdentifier NamespaceBody Semicolon_Opt
+		;
+		
+QualifiedIdentifier
+	::= IDENTIFIER |
+		QualifiedIdentifier DOT IDENTIFIER
+		;
+		
+NamespaceBody
+	::= LBRACE UsingDirectives_Opt NamespaceMemberDeclarations_Opt RBRACE
+		;
+	
+UsingDirectives
+	::= UsingDirective |
+		UsingDirectives UsingDirective
+		;
+		
+UsingDirective
+	::= UsingAliasDirective |
+		UsingNamespaceDirective
+		;
+	
+UsingAliasDirective
+	::= USING IDENTIFIER EQ namespace_or_type_name SEMICOLON
+		;
+		
+UsingNamespaceDirective
+	::= USING namespace_name SEMICOLON
+		;
+
+NamespaceMemberDeclarations
+	::= NamespaceMemberDeclaration |
+		NamespaceMemberDeclarations NamespaceMemberDeclaration
+		;
+
+NamespaceMemberDeclaration
+	::= NamespaceDeclaration |
+		TypeDeclaration
+		;
+		
+TypeDeclaration
+	::= class_declaration |
+		struct_declaration |
+		interface_declaration |
+		enum_declaration |
+		delegate_declaration
+		;
+		
+/* -------------------------------------------------- *
+ *                      Classes                       *
+ * -------------------------------------------------- */
+
+class_declaration
+	::= Attributes_Opt Modifiers_Opt CLASS IDENTIFIER ClassBase_Opt ClassBody Semicolon_Opt
+		;
+		
+ClassBase
+	::= Colon_ClassType |
+		COLON InterfaceTypeList |
+		Colon_ClassType COMMA InterfaceTypeList
+		;
+		
+InterfaceTypeList
+	::= InterfaceType |
+		InterfaceTypeList COMMA InterfaceType
+		;
+		
+ClassBody
+	::= LBRACE ClassMemberDeclarations_Opt RBRACE
+		;
+		
+ClassMemberDeclarations
+	::= ClassMemberDeclaration |
+		ClassMemberDeclarations ClassMemberDeclaration
+		;
+		
+ClassMemberDeclaration
+	::= ClassMemberDeclaration_Possibilities
+		;
+
+ConstantDeclaration
+	::= Attributes_Opt Modifiers_Opt CONST type ConstantDeclarators SEMICOLON
+		;
+		
+ConstantDeclarators
+	::= ConstantDeclarator |
+		ConstantDeclarators COMMA ConstantDeclarator
+		;
+		
+ConstantDeclarator
+	::= IDENTIFIER EQ ConstantExpression
+		;
+		
+FieldDeclaration
+	::= Attributes_Opt Modifiers_Opt type VariableDeclarators SEMICOLON
+		;
+		
+VariableDeclarators
+	::= VariableDeclarator |
+		VariableDeclarators COMMA VariableDeclarator
+		;
+		
+VariableDeclarator
+	::= IDENTIFIER |
+		IDENTIFIER EQ VariableInitializer
+		;
+		
+VariableInitializer
+	::= Expression |
+		ArrayInitializer
+		;
+		
+MethodDeclaration
+	::= MethodHeader MethodBody
+		;
+		
+MethodHeader
+	::= Attributes_Opt Modifiers_Opt ReturnType MemberName LPAREN FormalParameterList_Opt RPAREN
+		;
+		
+ReturnType
+	::= type |
+		VOID
+		;
+		
+MemberName
+	::= IDENTIFIER |
+		InterfaceType DOT IDENTIFIER
+		;
+		
+MethodBody
+	::= Block |
+		SEMICOLON
+		;
+		
+FormalParameterList
+	::= FixedParameters |
+		FixedParameters COMMA ParameterArray |
+		ParameterArray
+		;
+		
+FixedParameters
+	::= FixedParameter |
+		FixedParameters FixedParameter
+		;
+		
+FixedParameter
+	::= Attributes_Opt Modifier_Opt type IDENTIFIER
+		;
+		
+ParameterArray
+	::= Attributes_Opt PARAMS ArrayType IDENTIFIER
+		;
+		
+PropertyDeclaration
+	::= Attributes_Opt Modifiers_Opt type MemberName LBRACE AcessorDeclarations RBRACE
+		;
+
+AcessorDeclarations
+	::= GetAcessorDeclaration SetAcessorDeclaration_Opt |
+		SetAcessorDeclaration GetAcessorDeclaration_Opt
+		;
+		
+GetAcessorDeclaration
+	::= Attributes_Opt GET AcessorBody
+		;
+		
+SetAcessorDeclaration
+	::= Attributes_Opt SET AcessorBody
+		;
+		
+AcessorBody
+	::= Block |
+		SEMICOLON
+		;
+		
+EventDeclaration
+	::= AttributesOpt_ModifiersOpt_Event_Type VariableDeclarators SEMICOLON |
+		AttributesOpt_ModifiersOpt_Event_Type MemberName LBRACE EventAcessorDeclarations RBRACE
+		;
+		
+EventAcessorDeclarations
+	::= AddAcessorDeclaration RemoveAcessorDeclaration |
+		RemoveAcessorDeclaration AddAcessorDeclaration
+		;
+		
+AddAcessorDeclaration
+	::= attributes ADD Block
+		;
+		
+RemoveAcessorDeclaration
+	::= attributes REMOVE Block
+		;
+		
+IndexerDeclaration
+	::= Attributes_Opt Modifiers_Opt IndexerDeclarator LBRACE AcessorDeclarations RBRACE
+		;
+		
+IndexerDeclarator
+	::= type THIS LBRACK FormalParameterList RBRACK |
+		type InterfaceType DOT THIS LBRACK FormalParameterList RBRACK
+		;
+		
+OperatorDeclaration
+	::= Attributes_Opt Modifiers OperatorDeclarator OperatorBody
+		;
+		
+OperatorDeclarator
+	::= UnaryOperatorDeclarator |
+		BinaryOperatorDeclarator |
+		ConversionOperatorDeclarator
+		;
+		
+UnaryOperatorDeclarator
+	::= type OPERATOR Operator LPAREN type IDENTIFIER RPAREN
+		;
+		
+BinaryOperatorDeclarator
+	::= type OPERATOR Operator LPAREN type IDENTIFIER COMMA type IDENTIFIER RPAREN
+		;
+		
+ConversionOperatorDeclarator
+	::= IMPLICIT Operator_Type_Lparen_Type_Identifier_Rparen |
+		EXPLICIT Operator_Type_Lparen_Type_Identifier_Rparen
+		;
+		
+OperatorBody
+	::= Block |
+		SEMICOLON
+		;
+
+ConstructorDeclaration
+	::= Attributes_Opt Modifiers_Opt ConstructorDeclarator ConstructorBody
+		;
+		
+ConstructorDeclarator
+	::= IDENTIFIER LPAREN FormalParameterList_Opt RPAREN ConstructorInitializer_Opt
+		;
+		
+ConstructorInitializer
+	::= COLON BASE LPAREN ArgumentList_Opt RPAREN |
+		COLON THIS LPAREN ArgumentList_Opt RPAREN
+		;
+		
+ConstructorBody
+	::= Block |
+		SEMICOLON
+		;
+		
+StaticConstructorDeclaration
+	::= Attributes_Opt Modifiers IDENTIFIER LPAREN RPAREN StaticConstructorBody
+		;
+
+StaticConstructorBody
+	::= Block |
+		SEMICOLON
+		;
+
+DestructorDeclaration
+	::= Attributes_Opt EXTERN COMP IDENTIFIER LPAREN RPAREN DestructorBody
+		;
+		
+DestructorBody
+	::= Block
+		;
+		
+/* -------------------------------------------------- *
+ *                   Possibilities                    *
+ * -------------------------------------------------- */
+ 
+Modifier
+	::= NEW | PUBLIC | PROTECTED | INTERNAL | PRIVATE | ABSTRACT | SEALED |
+		STATIC | READONLY | VOLATILE | VIRTUAL | OVERRIDE | EXTERN | REF | OUT |
+		STATIC EXTERN | EXTERN STATIC
+		;
+		
+Modifier_Opt
+	::= | Modifier
+		;
+		
+Modifiers
+	::= Modifier |
+		Modifiers Modifier
+		;
+		
+Modifiers_Opt
+	::= | Modifiers
+		;
+		
+Operator
+	::= PLUS | MINUS | MULT | DIV | MOD | AND | OR | XOR | LSHIFT | RSHIFT | NOTEQ | GT | LT | GTEQ | LTEQ |
+		COMP | PLUSPLUS | MINUSMINUS | TRUE | FALSE
+		;
+		
+ClassMemberDeclaration_Possibilities
+	::= ConstantDeclaration |
+		FieldDeclaration |
+		MethodDeclaration |
+		PropertyDeclaration |
+		EventDeclaration |
+		IndexerDeclaration |
+		OperatorDeclaration |
+		ConstructorDeclaration |
+		DestructorDeclaration |
+		StaticConstructorDeclaration |
+		TypeDeclaration
+		;
+		
+/* -------------------------------------------------- *
+ *                     Repetition                     *
+ * -------------------------------------------------- */
+ 
+Colon_ClassType
+	::= COLON ClassType
+		;
+		
+AttributesOpt_ModifiersOpt_Event_Type
+	::= Attributes_Opt Modifiers_Opt EVENT type
+		;
+
+Operator_Type_Lparen_Type_Identifier_Rparen
+	::= OPERATOR type LPAREN type IDENTIFIER RPAREN
+		;
+ 
+/* -------------------------------------------------- *
+ *                      Optional                      *
+ * -------------------------------------------------- */
+		
+UsingDirectives_Opt
+	::= | UsingDirectives
+		;
+		
+GlobalAttributes_Opt
+	::= | global_attributes
+		;
+		
+NamespaceMemberDeclarations_Opt
+	::= | NamespaceMemberDeclarations
+		;
+		
+Semicolon_Opt
+	::= | SEMICOLON
+		;
+		
+Attributes_Opt
+	::= | attributes
+		;
+		
+ClassBase_Opt
+	::= | ClassBase
+		;
+		
+ClassMemberDeclarations_Opt
+	::= | ClassMemberDeclarations
+		;
+		
+FormalParameterList_Opt
+	::= | FormalParameterList
+		;
+		
+SetAcessorDeclaration_Opt
+	::= | SetAcessorDeclaration
+		;
+		
+GetAcessorDeclaration_Opt
+	::= | GetAcessorDeclaration
+		;
+		
+ConstructorInitializer_Opt
+	::= | ConstructorInitializer
+		;
+		
+ArgumentList_Opt
+	::= | ArgumentList
+		;
