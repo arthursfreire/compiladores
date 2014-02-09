@@ -188,6 +188,16 @@ terminal	SET;
 terminal	ADD;
 terminal	REMOVE;
 
+terminal	ASSEMBLY;
+
+terminal	FIELD;
+terminal	METHOD;
+terminal	MODULE;
+terminal	PARAM;
+terminal	PROPERTY;
+terminal	TYPE;
+
+
 /* -------------------------------------------------- *
  *            Main Productions Declarations           *
  * -------------------------------------------------- */
@@ -375,6 +385,30 @@ non terminal	EnumMemberDeclarations;
 non terminal	EnumMemberDeclaration;
 
 /* -------------------------------------------------- *
+ *              Attributes Declarations               *
+ * -------------------------------------------------- */
+ 
+non terminal	GlobalAttributeSections;
+non terminal	GlobalAttributeSection;
+non terminal	GlobalAttributeTargetSpecifier;
+non terminal	GlobalAttributeTarget;
+non terminal	Attributes;
+non terminal	AttributeSections;
+non terminal	AttributeSection;
+non terminal	AttributeTargetSpecifier;
+non terminal	AttributeTarget;
+non terminal	AttributeList;
+non terminal	Attribute;
+non terminal	AttributeName;
+non terminal	AttributeArguments;
+non terminal	AttributeArgumentList;
+non terminal	PositionalArgumentList;
+non terminal	PositionalArgument;
+non terminal	NamedArgumentList;
+non terminal	NamedArgument;
+non terminal	AttributeArgumentExpression;
+
+/* -------------------------------------------------- *
  *             Possibilities Declarations             *
  * -------------------------------------------------- */
 
@@ -397,6 +431,8 @@ non terminal	Operator_Type_Lparen_Type_Identifier_Rparen;
 non terminal	AttributesOpt_Get_Semicolon;
 non terminal	AttributesOpt_Set_Semicolon;
 non terminal	AttibutesOpt_Identifier;
+non terminal	Lbrack_GlobalAttributeTargetSpecifier_AttributeList;
+non terminal	Lbrack_AttributeTargetSpecifierOpt_AttributeList;
  
 /* -------------------------------------------------- *
  *                Optional Declarations               *
@@ -432,6 +468,11 @@ non terminal	StructInterfaces_Opt;
 non terminal	StructMemberDeclarations_Opt;
 non terminal	EnumBase_Opt;
 non terminal	EnumMemberDeclarations_Opt;
+non terminal	AttributeTargetSpecifier_Opt;
+non terminal	AttributeArguments_Opt;
+non terminal	PositionalArgument_Opt;
+non terminal	Comma_Opt;
+
 
 
 precedence left SEMICOLON;
@@ -441,6 +482,7 @@ precedence left MINUS,PLUS;
 precedence left IDENTIFIER;
 precedence left IF,ELSE,RETURN,CONTINUE,BREAK;
 precedence left LPAREN, RPAREN;
+precedence left LBRACK, RBRACK;
 precedence left STATIC;
 
 
@@ -670,11 +712,11 @@ EventAcessorDeclarations
 		;
 		
 AddAcessorDeclaration
-	::= attributes ADD Block
+	::= Attributes ADD Block
 		;
 		
 RemoveAcessorDeclaration
-	::= attributes REMOVE Block
+	::= Attributes REMOVE Block
 		;
 		
 IndexerDeclaration
@@ -875,6 +917,87 @@ EnumMemberDeclaration
 delegate_declaration
 	::= Attributes_Opt Modifiers_Opt DELEGATE ReturnType IDENTIFIER LPAREN FormalParameterList_Opt RPAREN SEMICOLON
 		;
+		
+/* -------------------------------------------------- *
+ *                     Attributes                     *
+ * -------------------------------------------------- */
+ 
+global_attributes
+	::= GlobalAttributeSections
+		;
+		
+GlobalAttributeSections
+	::= GlobalAttributeSection |
+		GlobalAttributeSections GlobalAttributeSection
+		;
+		
+
+GlobalAttributeSection
+	::= LBRACK ASSEMBLY COLON AttributeList Comma_Opt RBRACK |
+		LBRACK MODULE COLON AttributeList Comma_Opt RBRACK
+		;
+		
+Attributes
+	::= AttributeSections
+		;
+		
+AttributeSections
+	::= AttributeSection |
+		AttributeSections AttributeSection
+		;
+
+AttributeSection
+	::= LBRACK AttributeTargetSpecifier_Opt AttributeList Comma_Opt RBRACK
+		;
+		
+AttributeTargetSpecifier
+	::= AttributeTarget COLON
+		;
+		
+AttributeTarget
+	::= FIELD | EVENT | METHOD | PARAM | PROPERTY | RETURN | TYPE
+		;
+		
+AttributeList
+	::= Attribute |
+		AttributeList COMMA Attribute
+		;
+		
+Attribute
+	::= AttributeName AttributeArguments_Opt
+		;
+		
+AttributeName
+	::= type_name
+		;
+		
+AttributeArguments
+	::= LPAREN PositionalArgument_Opt RPAREN |
+		LPAREN PositionalArgumentList COMMA NamedArgumentList RPAREN |
+		LPAREN NamedArgumentList RPAREN
+		;
+		
+PositionalArgumentList
+	::= PositionalArgument |
+		PositionalArgumentList COMMA PositionalArgument
+		;
+
+PositionalArgument
+	::= AttributeArgumentExpression
+		;
+		
+NamedArgumentList
+	::= NamedArgument |
+		NamedArgumentList COMMA NamedArgument
+		;
+		
+NamedArgument
+	::= IDENTIFIER EQ AttributeArgumentExpression
+		;
+		
+AttributeArgumentExpression
+	::= Expression
+		;
 				
 /* -------------------------------------------------- *
  *                   Possibilities                    *
@@ -958,6 +1081,14 @@ AttributesOpt_Set_Semicolon
 AttibutesOpt_Identifier
 	::= Attributes_Opt IDENTIFIER
 		;
+		
+Lbrack_GlobalAttributeTargetSpecifier_AttributeList
+	::= LBRACK GlobalAttributeTargetSpecifier AttributeList
+		;
+	
+Lbrack_AttributeTargetSpecifierOpt_AttributeList
+	::= LBRACK AttributeTargetSpecifier_Opt AttributeList
+		;
  
 /* -------------------------------------------------- *
  *                      Optional                      *
@@ -980,7 +1111,7 @@ Semicolon_Opt
 		;
 		
 Attributes_Opt
-	::= | attributes
+	::= | Attributes
 		;
 		
 ClassBase_Opt
@@ -1041,4 +1172,20 @@ EnumBase_Opt
 		
 EnumMemberDeclarations_Opt
 	::= | EnumMemberDeclarations
+		;
+		
+AttributeTargetSpecifier_Opt
+	::= | AttributeTargetSpecifier
+		;
+		
+AttributeArguments_Opt
+	::= | AttributeArguments
+		;
+		
+PositionalArgument_Opt
+	::= | PositionalArgument
+		;
+		
+Comma_Opt
+	::= | COMMA
 		;

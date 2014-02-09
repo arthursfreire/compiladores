@@ -1309,7 +1309,7 @@ public class LexicalAnalysis implements java_cup.runtime.Scanner {
           }
         case 211: break;
         case 75: 
-          { return symbol(sym.TYPE);
+          { return symbol(sym.TYPE):
           }
         case 212: break;
         case 76: 
@@ -1361,7 +1361,7 @@ public class LexicalAnalysis implements java_cup.runtime.Scanner {
           }
         case 224: break;
         case 88: 
-          { return symbol(sym.FIELD);
+          { return symbol(sym.FIELD):
           }
         case 225: break;
         case 89: 
@@ -1385,7 +1385,7 @@ public class LexicalAnalysis implements java_cup.runtime.Scanner {
           }
         case 230: break;
         case 94: 
-          { return symbol(sym.PARAM);
+          { return symbol(sym.PARAM):
           }
         case 231: break;
         case 95: 
@@ -1405,11 +1405,11 @@ public class LexicalAnalysis implements java_cup.runtime.Scanner {
           }
         case 235: break;
         case 99: 
-          { return symbol(sym.METHOD);
+          { return symbol(sym.METHOD):
           }
         case 236: break;
         case 100: 
-          { return symbol(sym.MODULE);
+          { return symbol(sym.MODULE):
           }
         case 237: break;
         case 101: 
@@ -1509,7 +1509,7 @@ public class LexicalAnalysis implements java_cup.runtime.Scanner {
           }
         case 261: break;
         case 125: 
-          { return symbol(sym.ASSEMBLY);
+          { return symbol(sym.ASSEMBLY):
           }
         case 262: break;
         case 126: 
@@ -1537,7 +1537,7 @@ public class LexicalAnalysis implements java_cup.runtime.Scanner {
           }
         case 268: break;
         case 132: 
-          { return symbol(sym.PROPERTY);
+          { return symbol(sym.PROPERTY):
           }
         case 269: break;
         case 133: 
