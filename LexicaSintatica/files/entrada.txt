@@ -1,7 +1,9 @@
 using id;
 
-namespace SampleNamespace {
+[module: AssemblyTitle(), teste]
 
+namespace SampleNamespace {
+	
 	new class TesteClasse {
 		void teste();
 		public void metodo();
@@ -12,7 +14,9 @@ namespace SampleNamespace {
 		public interface TesteInterface {}
 		
 		private enum EnumTeste {};
-		private delegate void DelegateTeste ();
+		
+		
+		[method: teste, merda, chupa,] private delegate void DelegateTeste();
 	}
 
 	public interface TesteInterface {

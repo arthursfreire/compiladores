@@ -167,7 +167,21 @@ Identifier = ({Letter} | "_") ({Letter} | {Digit} | "_")*
   	
   	/* add and remove */
   	"add"						   { return symbol(sym.ADD); }
-  	"remove"					   { return symbol(sym.REMOVE); } 
+  	"remove"					   { return symbol(sym.REMOVE); }
+  	
+  	/* global-attribute-section */
+  	"assembly"					   { return symbol(sym.ASSEMBLY); }
+  	
+  	/* attribute-target */
+  	"field"						   { return symbol(sym.FIELD); }
+  	"event"						   { return symbol(sym.EVENT); }
+  	"method"					   { return symbol(sym.METHOD); }
+  	"module"					   { return symbol(sym.MODULE); }
+  	"param"						   { return symbol(sym.PARAM); }
+  	"property"					   { return symbol(sym.PROPERTY); }
+  	"type"					   	   { return symbol(sym.TYPE); }
+
+  	
   	
   	/* operators and punctuators */
   	"="                            { return symbol(sym.EQ); }
