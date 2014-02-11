@@ -247,7 +247,63 @@ non terminal	ConstantExpression;
 /* -------------------------------------------------- *
  *              Statements Declarations               *
  * -------------------------------------------------- */
+ 
+non terminal	EmbeddedStatement;
 non terminal	Block;
+non terminal	StatementList;
+non terminal	EmptyStatement;
+non terminal	LabeledStatement;
+non terminal	DeclarationStatement;
+non terminal	ExpressionStatement;
+non terminal	JumpStatement;
+non terminal	TryStatement;
+non terminal	CheckedStatement;
+non terminal	UncheckedStatement;
+non terminal	LockStatement;
+non terminal	UsingStatement;
+non terminal	LocalVariableDeclaration;
+non terminal	LocalConstantDeclaration;
+non terminal	LocalVariableDeclarators;
+non terminal	LocalVariableDeclarator;
+non terminal	LocalVariableInitializer;
+non terminal	StatementExpression;
+non terminal	InvocationExpression;
+non terminal	ObjectCreationExpression;
+non terminal	Assignment;
+non terminal	PostIncrementExpression;
+non terminal	PostDecrementExpression;
+non terminal	PreIncrementExpression;
+non terminal	PreDecrementExpression;
+non terminal	SelectionStatement;
+non terminal	IfStatement;
+non terminal	SwitchStatement;
+non terminal	BooleanExpression;
+non terminal	SwitchBlock;
+non terminal	SwitchSections;
+non terminal	SwitchSection;
+non terminal	SwitchLabels;
+non terminal	SwitchLabel;
+non terminal	IterationStatement;
+non terminal	WhileStatement;
+non terminal	DoStatement;
+non terminal	ForStatement;
+non terminal	ForeachStatement;
+non terminal	ForInitializer;
+non terminal	ForCondition;
+non terminal	ForIterator;
+non terminal	StatementExpressionList;
+non terminal	BreakStatement;
+non terminal	ContinueStatement;
+non terminal	GotoStatement;
+non terminal	ReturnStatement;
+non terminal	ThrowStatement;
+non terminal	CatchClauses;
+non terminal	SpecificCatchClauses;
+non terminal	SpecificCatchClause;
+non terminal	GeneralCatchClause;
+non terminal	FinallyClause;
+non terminal	UncheckedCatchClause;
+non terminal	ResourceAcquisition;
 
 /* -------------------------------------------------- *
  *               Namespace Declarations               *
@@ -420,6 +476,8 @@ non terminal	ClassMemberDeclaration_Possibilities;
 non terminal	Operator;
 non terminal	IntegralType_Possibilities;
 non terminal	StructMemberDeclaration_Possibilities;
+non terminal	EmbeddedStatement_Possibilities;
+non terminal	StatementExpression_Possibilities;
 
 /* -------------------------------------------------- *
  *               Repetition Declarations              *
@@ -472,6 +530,15 @@ non terminal	AttributeTargetSpecifier_Opt;
 non terminal	AttributeArguments_Opt;
 non terminal	PositionalArgument_Opt;
 non terminal	Comma_Opt;
+non terminal	StatementList_Opt;
+non terminal	SwitchSections_Opt;
+non terminal	ForInitializer_Opt;
+non terminal	ForCondition_Opt;
+non terminal	ForIterator_Opt;
+non terminal	Expression_Opt;
+non terminal	GeneralCatchClause_Opt;
+non terminal	SpecificCatchClauses_Opt;
+non terminal	Identifier_Opt;
 
 
 
@@ -484,6 +551,7 @@ precedence left 	LBRACE, RBRACE;
 precedence left 	LBRACK, RBRACK;
 precedence left 	LPAREN, RPAREN;
 precedence left 	IF, ELSE, RETURN, CONTINUE, BREAK;
+precedence left		CATCH, WHILE;
 
 
 
@@ -527,6 +595,229 @@ namespace_or_type_name
  *                     Statements                     *
  * -------------------------------------------------- */
 
+statement
+	::= LabeledStatement |
+		DeclarationStatement |
+		EmbeddedStatement
+		;
+		
+EmbeddedStatement
+	::= EmbeddedStatement_Possibilities
+		;
+		
+Block
+	::= LBRACE StatementList_Opt RBRACE
+		;
+		
+StatementList
+	::= statement |
+		StatementList statement
+		;
+		
+EmptyStatement
+	::= SEMICOLON
+		;
+		
+LabeledStatement
+	::= IDENTIFIER COLON statement
+		;
+		
+DeclarationStatement
+	::= LocalVariableDeclaration SEMICOLON |
+		LocalConstantDeclaration SEMICOLON
+		;
+		
+LocalVariableDeclaration
+	::= type LocalVariableDeclarators
+		;
+		
+LocalVariableDeclarators
+	::= LocalVariableDeclarator |
+		LocalVariableDeclarators LocalVariableDeclarator
+		;
+		
+LocalVariableDeclarator
+	::= IDENTIFIER |
+		IDENTIFIER EQ LocalVariableDeclarator
+		;
+		
+LocalVariableInitializer
+	::= Expression |
+		ArrayInitializer
+		;
+		
+LocalConstantDeclaration
+	::= CONST type ConstantDeclarators
+		;
+
+ExpressionStatement
+	::= StatementExpression SEMICOLON
+		;
+		
+StatementExpression
+	::= StatementExpression_Possibilities
+		;
+		
+SelectionStatement
+	::= IfStatement |
+		SwitchStatement
+		;
+		
+IfStatement
+	::= IF LPAREN BooleanExpression RPAREN EmbeddedStatement |
+		IF LPAREN BooleanExpression RPAREN EmbeddedStatement ELSE EmbeddedStatement
+		;
+		
+BooleanExpression
+	::= Expression
+		;
+		
+SwitchStatement
+	::= SWITCH LPAREN Expression RPAREN SwitchBlock
+		;
+		
+SwitchBlock
+	::= LBRACE SwitchSections_Opt RBRACE
+		;
+		
+SwitchSections
+	::= SwitchSection |
+		SwitchSections SwitchSection
+		;
+
+SwitchSection
+	::= SwitchLabels StatementList
+		;
+		
+SwitchLabels
+	::= SwitchLabel |
+		SwitchLabels SwitchLabel
+		;
+		
+SwitchLabel
+	::= CASE ConstantExpression COLON |
+		DEFAULT COLON
+		;
+		
+IterationStatement
+	::= WhileStatement |
+		DoStatement |
+		ForStatement |
+		ForeachStatement
+		;
+		
+WhileStatement
+	::= WHILE LPAREN BooleanExpression RPAREN EmbeddedStatement
+		;
+		
+DoStatement
+	::= EmbeddedStatement WHILE LPAREN BooleanExpression RPAREN SEMICOLON
+		;
+		
+ForStatement
+	::= FOR LPAREN ForInitializer_Opt SEMICOLON ForCondition_Opt SEMICOLON ForIterator_Opt RPAREN EmbeddedStatement
+		;
+		
+ForInitializer
+	::= LocalVariableDeclaration |
+		StatementExpressionList
+		;
+
+ForCondition
+	::= BooleanExpression
+		;
+		
+ForIterator
+	::= StatementExpressionList
+		;
+
+StatementExpressionList
+	::= StatementExpression |
+		StatementExpressionList COMMA StatementExpression
+		;
+		
+ForeachStatement
+	::= FOREACH LPAREN type IDENTIFIER IN Expression RPAREN EmbeddedStatement
+		;
+		
+JumpStatement
+	::= BreakStatement |
+		ContinueStatement |
+		GotoStatement |
+		ReturnStatement |
+		ThrowStatement
+		;
+		
+BreakStatement
+	::= BREAK SEMICOLON
+		;
+		
+ContinueStatement
+	::= CONTINUE SEMICOLON
+		;
+		
+GotoStatement
+	::= GOTO IDENTIFIER |
+		GOTO CASE ConstantExpression SEMICOLON |
+		GOTO DEFAULT SEMICOLON
+		;
+		
+ReturnStatement
+	::= RETURN Expression_Opt SEMICOLON
+		;
+		
+ThrowStatement
+	::= THROW Expression_Opt SEMICOLON
+		;
+	
+TryStatement
+	::= TRY Block CatchClauses |
+		TRY Block FinallyClause |
+		TRY Block CatchClauses FinallyClause
+		;
+		
+CatchClauses
+	::= SpecificCatchClauses GeneralCatchClause_Opt |
+		SpecificCatchClauses_Opt GeneralCatchClause
+		;
+		
+SpecificCatchClauses
+	::= SpecificCatchClause |
+		SpecificCatchClauses SpecificCatchClause
+		;
+		
+SpecificCatchClause
+	::= CATCH LPAREN ClassType Identifier_Opt RPAREN Block
+		;
+		
+GeneralCatchClause
+	::= CATCH Block
+		;
+		
+FinallyClause
+	::= FINALLY Block
+		;
+		
+CheckedStatement
+	::= CHECKED Block
+		;
+		
+UncheckedStatement
+	::= UNCHECKED Block
+		;
+		
+LockStatement
+	::= LOCK LPAREN Expression RPAREN EmbeddedStatement
+		;
+		
+UsingStatement
+	::= USING LPAREN ResourceAcquisition RPAREN EmbeddedStatement
+		;
+		
+ResourceAcquisition
+	::= LocalVariableDeclaration |
+		Expression
+		;
 
 /* -------------------------------------------------- *
  *                     Namespaces                     *
@@ -1071,6 +1362,30 @@ StructMemberDeclaration_Possibilities
 		TypeDeclaration
 		;
 		
+EmbeddedStatement_Possibilities
+	::= Block |
+		EmptyStatement |
+		ExpressionStatement |
+		SelectionStatement |
+		IterationStatement |
+		JumpStatement |
+		TryStatement |
+		CheckedStatement |
+		UncheckedStatement |
+		LockStatement |
+		UsingStatement
+		;
+		
+StatementExpression_Possibilities
+	::= InvocationExpression |
+		ObjectCreationExpression |
+		Assignment |
+		PostIncrementExpression |
+		PostDecrementExpression |
+		PreIncrementExpression |
+		PreDecrementExpression
+		;
+		
 /* -------------------------------------------------- *
  *                     Repetition                     *
  * -------------------------------------------------- */
@@ -1206,3 +1521,40 @@ PositionalArgument_Opt
 Comma_Opt
 	::= | COMMA
 		;
+		
+StatementList_Opt
+	::= | StatementList
+		;
+		
+SwitchSections_Opt
+	::= | SwitchSections
+		;
+		
+ForInitializer_Opt
+	::= | ForInitializer
+		;
+		
+ForCondition_Opt
+	::= | ForCondition
+		;
+		
+ForIterator_Opt
+	::= | ForIterator
+		;
+		
+Expression_Opt
+	::= | Expression
+		;
+		
+GeneralCatchClause_Opt
+	::= | GeneralCatchClause
+		;
+		
+SpecificCatchClauses_Opt
+	::= | SpecificCatchClauses
+		;
+		
+Identifier_Opt
+	::= | IDENTIFIER
+		;
+		

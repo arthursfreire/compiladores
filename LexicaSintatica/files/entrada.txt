@@ -5,7 +5,20 @@ using id;
 namespace SampleNamespace {
 	
 	new class TesteClasse {
-		void teste();
+		void teste() {
+			{;}
+			break;
+			continue;
+			goto identificador;
+			goto default;
+			
+			throw ;
+			
+			checked {}
+			unchecked {}
+
+		}
+		
 		public void metodo();
 		
 		
