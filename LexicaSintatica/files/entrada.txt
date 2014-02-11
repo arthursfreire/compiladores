@@ -5,7 +5,7 @@ using id;
 namespace SampleNamespace {
 	
 	new class TesteClasse {
-		void teste();
+		void teste() {}
 		public void metodo();
 		
 		
