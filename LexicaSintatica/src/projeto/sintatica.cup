@@ -475,15 +475,16 @@ non terminal	Comma_Opt;
 
 
 
-precedence left SEMICOLON;
-precedence left COMMA;
-precedence left NOT,COMP;
-precedence left MINUS,PLUS;
-precedence left IDENTIFIER;
-precedence left IF,ELSE,RETURN,CONTINUE,BREAK;
-precedence left LPAREN, RPAREN;
-precedence left LBRACK, RBRACK;
-precedence left STATIC;
+precedence left 	THIS, OPERATOR;
+precedence left		STATIC;
+precedence left 	IDENTIFIER;
+precedence left 	BOOL, DECIMAL; 
+precedence left 	SBYTE, BYTE, SHORT, USHORT, INT, UINT, LONG, ULONG, CHAR, DOUBLE, FLOAT;
+precedence left 	LBRACE, RBRACE;
+precedence left 	LBRACK, RBRACK;
+precedence left 	LPAREN, RPAREN;
+precedence left 	IF, ELSE, RETURN, CONTINUE, BREAK;
+
 
 
 start with compilation_unit;
@@ -512,6 +513,18 @@ namespace_or_type_name
 		
 /* -------------------------------------------------- *
  *                       Types                        *
+ * -------------------------------------------------- */
+ 
+/* -------------------------------------------------- *
+ *                     Variables                      *
+ * -------------------------------------------------- */
+ 
+/* -------------------------------------------------- *
+ *                    Expressions                     *
+ * -------------------------------------------------- */
+ 
+/* -------------------------------------------------- *
+ *                     Statements                     *
  * -------------------------------------------------- */
 
 
@@ -1027,6 +1040,10 @@ Operator
 		COMP | PLUSPLUS | MINUSMINUS | TRUE | FALSE
 		;
 		
+IntegralType_Possibilities
+	::= SBYTE | BYTE | SHORT | USHORT | INT | UINT | LONG | ULONG | CHAR
+		;
+		
 ClassMemberDeclaration_Possibilities
 	::= ConstantDeclaration |
 		FieldDeclaration |
@@ -1147,7 +1164,7 @@ StructInterfaces_Opt
 		;
 		
 ArgumentList_Opt
-	::= | ArgumentList
+	::= | argument_list
 		;
 
 DimSeparators_Opt
