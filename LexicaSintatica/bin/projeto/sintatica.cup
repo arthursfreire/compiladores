@@ -219,6 +219,8 @@ non terminal	delegate_declaration;
 non terminal	global_attributes;
 non terminal	attributes;
 
+non terminal	literal;
+
 /* -------------------------------------------------- *
  *                 Types Declarations                 *
  * -------------------------------------------------- */
@@ -240,7 +242,44 @@ non terminal	DelegateType;
  *              Expressions Declarations              *
  * -------------------------------------------------- */
 
-non terminal	ArgumentList;
+non terminal	Argument;
+non terminal	PrimaryExpression;
+non terminal	PrimaryNoArrayCreationExpression;
+non terminal	SimpleName;
+non terminal	ParenthesizedExpression;
+non terminal	MemberAccess;
+non terminal	PredefinedType;
+non terminal	InvocationExpression;
+non terminal	ElementAccess;
+non terminal	ExpressionList;
+non terminal	ThisAccess;
+non terminal	BaseAccess;
+non terminal	PostIncrementExpression;
+non terminal	PostDecrementExpression;
+non terminal	ObjectCreationExpression;
+non terminal	ArrayCreationExpression;
+non terminal	DelegateCreationExpression;
+non terminal	TypeofExpression;
+non terminal	SizeofExpression;
+non terminal	CheckedExpression;
+non terminal	UncheckedExpression;
+non terminal	UnaryExpression;
+non terminal	PreIncrementExpression;
+non terminal	PreDecrementExpression;
+non terminal	CastExpression;
+non terminal	MultiplicativeExpression;
+non terminal	AdditiveExpression;
+non terminal	ShiftExpression;
+non terminal	RelationalExpression;
+non terminal	EqualityExpression;
+non terminal	AndExpression;
+non terminal	ExclusiveOrExpression;
+non terminal	InclusiveOrExpression;
+non terminal	ConditionalAndExpression;
+non terminal	ConditionalOrExpression;
+non terminal	ConditionalExpression;
+non terminal	Assignment;
+non terminal	AssignmentOperator;
 non terminal	Expression;
 non terminal	ConstantExpression;
 
@@ -267,13 +306,6 @@ non terminal	LocalVariableDeclarators;
 non terminal	LocalVariableDeclarator;
 non terminal	LocalVariableInitializer;
 non terminal	StatementExpression;
-non terminal	InvocationExpression;
-non terminal	ObjectCreationExpression;
-non terminal	Assignment;
-non terminal	PostIncrementExpression;
-non terminal	PostDecrementExpression;
-non terminal	PreIncrementExpression;
-non terminal	PreDecrementExpression;
 non terminal	SelectionStatement;
 non terminal	IfStatement;
 non terminal	SwitchStatement;
@@ -539,6 +571,8 @@ non terminal	Expression_Opt;
 non terminal	GeneralCatchClause_Opt;
 non terminal	SpecificCatchClauses_Opt;
 non terminal	Identifier_Opt;
+non terminal	RankSpecifiers_Opt;
+non terminal	ArrayInitializer_Opt;
 
 
 
@@ -555,12 +589,21 @@ precedence left		CATCH, WHILE;
 
 
 
+
 start with compilation_unit;
 
 /* ################################################## */
 /* #################### GRAMMAR ##################### */
 /* ################################################## */
 
+
+literal
+	::= TRUE | FALSE |
+		INTEGER_LITERAL |
+		REAL_LITERAL |
+		STRING_LITERAL |
+		NULL
+		;
 
 /* -------------------------------------------------- *
  *                   Basic Concepts                   *
@@ -590,7 +633,214 @@ namespace_or_type_name
 /* -------------------------------------------------- *
  *                    Expressions                     *
  * -------------------------------------------------- */
- 
+
+argument_list
+	::= Argument |
+		argument_list COMMA Argument
+		;
+		
+Argument
+	::= Expression |
+		REF variable_reference |
+		OUT variable_reference
+		;
+		
+PrimaryExpression
+	::= PrimaryNoArrayCreationExpression |
+		ArrayCreationExpression
+		;
+		
+PrimaryNoArrayCreationExpression
+	::= literal |
+		SimpleName |
+		ParenthesizedExpression |
+		MemberAccess |
+		InvocationExpression |
+		ElementAccess |
+		ThisAccess |
+		BaseAccess |
+		PostIncrementExpression |
+		PostDecrementExpression |
+		ObjectCreationExpression |
+		DelegateCreationExpression |
+		TypeofExpression |
+		SizeofExpression |
+		CheckedExpression |
+		UncheckedExpression
+		;
+		
+SimpleName
+	::= IDENTIFIER
+		;
+		
+ParenthesizedExpression
+	::= LPAREN Expression RPAREN
+		;
+		
+MemberAccess
+	::= PrimaryExpression DOT IDENTIFIER |
+		PredefinedType DOT IDENTIFIER
+		;
+		
+PredefinedType
+	::= BOOL | BYTE | CHAR | DECIMAL | DOUBLE | FLOAT | INT | LONG |
+		OBJECT | SBYTE | SHORT | STRING | UINT | ULONG | USHORT
+		;		
+
+InvocationExpression
+	::= PrimaryExpression LPAREN ArgumentList_Opt RPAREN
+		;
+		
+ElementAccess
+	::= PrimaryNoArrayCreationExpression LBRACK ExpressionList RBRACK
+		;
+		
+ExpressionList
+	::= Expression |
+		ExpressionList COMMA Expression
+		;
+		
+ThisAccess
+	::= THIS
+		;
+		
+BaseAccess
+	::= BASE DOT IDENTIFIER |
+		BASE LBRACK ExpressionList RBRACK
+		;
+
+PostIncrementExpression
+	::= PrimaryExpression PLUS PLUS
+		;
+		
+PostDecrementExpression
+	::= PrimaryExpression MINUS MINUS
+		;
+		
+ObjectCreationExpression
+	::= NEW type LPAREN ArgumentList_Opt RPAREN
+		;
+		
+ArrayCreationExpression
+	::= NEW NonArrayType LBRACK ExpressionList RBRACK RankSpecifiers_Opt ArrayInitializer_Opt |
+		NEW ArrayType ArrayInitializer
+		;
+		
+DelegateCreationExpression
+	::= NEW DelegateType LPAREN Expression RPAREN
+		;
+		
+TypeofExpression
+	::= TYPEOF LPAREN type RPAREN |
+		TYPEOF LPAREN VOID RPAREN
+		;
+		
+CheckedExpression
+	::= CHECKED LPAREN Expression RPAREN
+		;
+		
+UncheckedExpression
+	::= UNCHECKED LPAREN Expression RPAREN
+		;
+		
+UnaryExpression
+	::= PrimaryExpression |
+		PLUS UnaryExpression |
+		MINUS UnaryExpression |
+		NOT UnaryExpression |
+		COMP UnaryExpression |
+		MULT UnaryExpression |
+		PreIncrementExpression |
+		PreDecrementExpression |
+		CastExpression
+		;
+		
+PreIncrementExpression
+	::= PLUS PLUS PrimaryExpression
+		;
+		
+PreDecrementExpression
+	::= MINUS MINUS PrimaryExpression
+		;
+		
+CastExpression
+	::= LPAREN type RPAREN UnaryExpression
+		;
+		
+MultiplicativeExpression
+	::= UnaryExpression |
+		MultiplicativeExpression MULT UnaryExpression |
+		MultiplicativeExpression DIV UnaryExpression |
+		MultiplicativeExpression MOD UnaryExpression
+		;
+		
+AdditiveExpression
+	::= MultiplicativeExpression |
+		AdditiveExpression PLUS MultiplicativeExpression |
+		AdditiveExpression MINUS MultiplicativeExpression
+		;
+		
+ShiftExpression
+	::= AdditiveExpression |
+		ShiftExpression LSHIFT AdditiveExpression |
+		ShiftExpression RSHIFT AdditiveExpression
+		;
+		
+RelationalExpression
+	::= ShiftExpression |
+		RelationalExpression LT ShiftExpression |
+		RelationalExpression GT ShiftExpression |
+		RelationalExpression LTEQ ShiftExpression |
+		RelationalExpression GTEQ ShiftExpression |
+		RelationalExpression IS ShiftExpression |
+		RelationalExpression AS ShiftExpression
+		;
+		
+EqualityExpression
+	::= RelationalExpression |
+		EqualityExpression EQEQ RelationalExpression |
+		EqualityExpression NOTEQ RelationalExpression
+		;
+		
+AndExpression
+	::= EqualityExpression | 
+		EqualityExpression AND EqualityExpression
+		;
+		
+ExclusiveOrExpression
+	::= AndExpression |
+		ExclusiveOrExpression XOR AndExpression
+		;
+		
+InclusiveOrExpression
+	::= ExclusiveOrExpression |
+		InclusiveOrExpression OR ExclusiveOrExpression
+		;
+		
+ConditionalAndExpression
+	::= InclusiveOrExpression |
+		ConditionalAndExpression ANDAND InclusiveOrExpression
+		;
+		
+ConditionalOrExpression
+	::= ConditionalAndExpression |
+		ConditionalOrExpression OROR ConditionalAndExpression
+		;
+		
+ConditionalExpression
+	::= ConditionalOrExpression |
+		ConditionalOrExpression QUESTION Expression COLON Expression
+		;
+		
+Assignment
+	::= UnaryExpression AssignmentOperator Expression
+		;
+		
+AssignmentOperator
+	::= EQ | PLUSEQ | MINUSEQ | MULTEQ | DIVEQ | MODEQ | ANDEQ | OREQ | XOREQ | LSHIFTEQ | RSHIFTEQ
+		; 
+
+
 /* -------------------------------------------------- *
  *                     Statements                     *
  * -------------------------------------------------- */
@@ -1558,3 +1808,10 @@ Identifier_Opt
 	::= | IDENTIFIER
 		;
 		
+RankSpecifiers_Opt
+	::= | RankSpecifiers
+		;
+		
+ArrayInitializer_Opt
+	::= | ArrayInitializer
+		;
