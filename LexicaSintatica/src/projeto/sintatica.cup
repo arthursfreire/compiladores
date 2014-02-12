@@ -217,7 +217,7 @@ non terminal	interface_declaration;
 non terminal	enum_declaration;
 non terminal	delegate_declaration;
 non terminal	global_attributes;
-non terminal	attributes;
+non terminal	namespace_or_type_name_line;
 
 non terminal	literal;
 
@@ -225,18 +225,9 @@ non terminal	literal;
  *                 Types Declarations                 *
  * -------------------------------------------------- */
 
-non terminal	ValueType;
-non terminal	StructType;
-non terminal	SimpleType;
-non terminal	NumericType;
-non terminal	IntegralType;
-non terminal	FloatingPointType;
-non terminal	EnumType;
-non terminal	ReferenceType;
 non terminal	ClassType;
 non terminal	InterfaceType;
 non terminal	ArrayType;
-non terminal	DelegateType;
 
 /* -------------------------------------------------- *
  *              Expressions Declarations              *
@@ -245,7 +236,6 @@ non terminal	DelegateType;
 non terminal	Argument;
 non terminal	PrimaryExpression;
 non terminal	PrimaryNoArrayCreationExpression;
-non terminal	SimpleName;
 non terminal	ParenthesizedExpression;
 non terminal	MemberAccess;
 non terminal	PredefinedType;
@@ -356,72 +346,49 @@ non terminal	TypeDeclaration;
  *                Classes Declarations                *
  * -------------------------------------------------- */
  
-non terminal	ClassModifiers;
-non terminal	ClassModifier;
 non terminal	ClassBase;
 non terminal	InterfaceTypeList;
 non terminal	ClassBody;
 non terminal	ClassMemberDeclarations;
 non terminal	ClassMemberDeclaration;
 non terminal	ConstantDeclaration;
-non terminal	ConstantModifiers;
-non terminal	ConstantModifier;
 non terminal	ConstantDeclarators;
 non terminal	ConstantDeclarator;
 non terminal	FieldDeclaration;
-non terminal	FieldModifiers;
-non terminal	FieldModifier;
 non terminal	VariableDeclarators;
 non terminal	VariableDeclarator;
 non terminal	VariableInitializer;
 non terminal	MethodDeclaration;
 non terminal	MethodHeader;
-non terminal	MethodModifiers;
-non terminal	MethodModifier;
 non terminal	ReturnType;
 non terminal	MemberName;
 non terminal	MethodBody;
 non terminal	FormalParameterList;
 non terminal	FixedParameters;
 non terminal	FixedParameter;
-non terminal	ParameterModifier;
 non terminal	ParameterArray;
 non terminal	PropertyDeclaration;
-non terminal	PropertyModifiers;
-non terminal	PropertyModifier;
 non terminal	AcessorDeclarations;
 non terminal	GetAcessorDeclaration;
 non terminal	SetAcessorDeclaration;
 non terminal	AcessorBody;
 non terminal	EventDeclaration;
-non terminal	EventModifiers;
-non terminal	EventModifier;
 non terminal	EventAcessorDeclarations;
-non terminal	EventAcessorDeclaration;
 non terminal	AddAcessorDeclaration;
 non terminal	RemoveAcessorDeclaration;
 non terminal	IndexerDeclaration;
-non terminal	IndexerModifiers;
-non terminal	IndexerModifier;
 non terminal	IndexerDeclarator;
 non terminal	OperatorDeclaration;
-non terminal	OperatorModifiers;
-non terminal	OperatorModifier;
 non terminal	OperatorDeclarator;
 non terminal	UnaryOperatorDeclarator;
-non terminal	OverloadableUnaryOperator;
 non terminal	BinaryOperatorDeclarator;
-non terminal	OverloadableBinaryOperator;
 non terminal	ConversionOperatorDeclarator;
 non terminal	OperatorBody;
 non terminal	ConstructorDeclaration;
-non terminal	ConstructorModifiers;
-non terminal	ConstructorModifier;
 non terminal	ConstructorDeclarator;
 non terminal	ConstructorInitializer;
 non terminal	ConstructorBody;
 non terminal	StaticConstructorDeclaration;
-non terminal	StaticConstructorModifiers;
 non terminal	StaticConstructorBody;
 non terminal	DestructorDeclaration;
 non terminal	DestructorBody;
@@ -430,10 +397,7 @@ non terminal	DestructorBody;
  *                Structs Declarations                *
  * -------------------------------------------------- */
 
-non terminal	StructModifiers;
-non terminal	StructModifier;
 non terminal	StructInterfaces;
-non terminal	StructBody;
 non terminal	StructMemberDeclarations;
 non terminal	StructMemberDeclaration;
 
@@ -452,12 +416,9 @@ non terminal	VariableInitializerList;
  *               Interfaces Declarations              *
  * -------------------------------------------------- */
  
-non terminal	InterfaceModifiers;
 non terminal	InterfaceBase;
-non terminal	InterfaceBody;
 non terminal	InterfaceMemberDeclarations;
 non terminal	InterfaceMemberDeclaration;
-non terminal	InterfaceMethodDeclaration;
 non terminal	InterfacePropertyDeclaration;
 non terminal	InterfaceAcessors;
 non terminal	InterfaceEventDeclaration;
@@ -468,7 +429,6 @@ non terminal	InterfaceIndexerDeclaration;
  * -------------------------------------------------- */
 
 non terminal	EnumBase;
-non terminal	EnumBody;
 non terminal	EnumMemberDeclarations;
 non terminal	EnumMemberDeclaration;
 
@@ -479,7 +439,6 @@ non terminal	EnumMemberDeclaration;
 non terminal	GlobalAttributeSections;
 non terminal	GlobalAttributeSection;
 non terminal	GlobalAttributeTargetSpecifier;
-non terminal	GlobalAttributeTarget;
 non terminal	Attributes;
 non terminal	AttributeSections;
 non terminal	AttributeSection;
@@ -489,7 +448,6 @@ non terminal	AttributeList;
 non terminal	Attribute;
 non terminal	AttributeName;
 non terminal	AttributeArguments;
-non terminal	AttributeArgumentList;
 non terminal	PositionalArgumentList;
 non terminal	PositionalArgument;
 non terminal	NamedArgumentList;
@@ -533,27 +491,17 @@ non terminal	GlobalAttributes_Opt;
 non terminal	NamespaceMemberDeclarations_Opt;
 non terminal	Semicolon_Opt;
 non terminal	Attributes_Opt;
-non terminal	ClassModifiers_Opt;
 non terminal	ClassBase_Opt;
 non terminal	ClassMemberDeclarations_Opt;
-non terminal	ConstantModifiers_Opt;
-non terminal	FieldModifiers_Opt;
-non terminal	MethodModifiers_Opt;
 non terminal	FormalParameterList_Opt;
-non terminal	ParameterModifier_Opt;
-non terminal	PropertyModifiers_Opt;
 non terminal	SetAcessorDeclaration_Opt;
 non terminal	GetAcessorDeclaration_Opt;
-non terminal	EventModifiers_Opt;
-non terminal	IndexerModifiers_Opt;
-non terminal	ConstructorModifiers_Opt;
 non terminal	ConstructorInitializer_Opt;
 non terminal	ArgumentList_Opt;
 non terminal	DimSeparators_Opt;
 non terminal	VariableInitializerList_Opt;
 non terminal	InterfaceBase_Opt;
 non terminal	InterfaceMemberDeclarations_Opt;
-non terminal	StructModifiers_Opt;
 non terminal	StructInterfaces_Opt;
 non terminal	StructMemberDeclarations_Opt;
 non terminal	EnumBase_Opt;
@@ -580,13 +528,13 @@ precedence left 	THIS, OPERATOR;
 precedence left		STATIC;
 precedence left 	IDENTIFIER;
 precedence left 	BOOL, DECIMAL; 
-precedence left 	SBYTE, BYTE, SHORT, USHORT, INT, UINT, LONG, ULONG, CHAR, DOUBLE, FLOAT;
+precedence left 	SBYTE, BYTE, SHORT, USHORT, INT, UINT, LONG, ULONG, CHAR, DOUBLE, FLOAT, STRING, OBJECT;
 precedence left 	LBRACE, RBRACE;
 precedence left 	LBRACK, RBRACK;
 precedence left 	LPAREN, RPAREN;
 precedence left 	IF, ELSE, RETURN, CONTINUE, BREAK;
 precedence left		CATCH, WHILE;
-
+precedence left		FINALLY;
 
 
 
@@ -618,17 +566,36 @@ type_name
 		;
 		
 namespace_or_type_name
-	::= IDENTIFIER |
-		namespace_or_type_name DOT IDENTIFIER
+	::= IDENTIFIER namespace_or_type_name_line
+		;
+		
+namespace_or_type_name_line
+	::= | namespace_or_type_name DOT IDENTIFIER
 		;
 		
 /* -------------------------------------------------- *
  *                       Types                        *
  * -------------------------------------------------- */
  
+type
+	::= namespace_or_type_name |
+		IntegralType_Possibilities |
+		BOOL |
+		FLOAT |
+		DOUBLE |
+		DECIMAL |
+		OBJECT |
+		STRING |
+		array_type
+		;
+		 
 /* -------------------------------------------------- *
  *                     Variables                      *
  * -------------------------------------------------- */
+ 
+variable_reference
+	::= Expression
+		;
  
 /* -------------------------------------------------- *
  *                    Expressions                     *
@@ -652,7 +619,7 @@ PrimaryExpression
 		
 PrimaryNoArrayCreationExpression
 	::= literal |
-		SimpleName |
+		IDENTIFIER |
 		ParenthesizedExpression |
 		MemberAccess |
 		InvocationExpression |
@@ -667,10 +634,6 @@ PrimaryNoArrayCreationExpression
 		SizeofExpression |
 		CheckedExpression |
 		UncheckedExpression
-		;
-		
-SimpleName
-	::= IDENTIFIER
 		;
 		
 ParenthesizedExpression
@@ -710,11 +673,11 @@ BaseAccess
 		;
 
 PostIncrementExpression
-	::= PrimaryExpression PLUS PLUS
+	::= PrimaryExpression PLUSPLUS
 		;
 		
 PostDecrementExpression
-	::= PrimaryExpression MINUS MINUS
+	::= PrimaryExpression MINUSMINUS
 		;
 		
 ObjectCreationExpression
@@ -727,7 +690,7 @@ ArrayCreationExpression
 		;
 		
 DelegateCreationExpression
-	::= NEW DelegateType LPAREN Expression RPAREN
+	::= NEW namespace_or_type_name LPAREN Expression RPAREN
 		;
 		
 TypeofExpression
@@ -756,11 +719,11 @@ UnaryExpression
 		;
 		
 PreIncrementExpression
-	::= PLUS PLUS PrimaryExpression
+	::= PLUSPLUS PrimaryExpression
 		;
 		
 PreDecrementExpression
-	::= MINUS MINUS PrimaryExpression
+	::= MINUSMINUS PrimaryExpression
 		;
 		
 CastExpression
@@ -838,8 +801,16 @@ Assignment
 		
 AssignmentOperator
 	::= EQ | PLUSEQ | MINUSEQ | MULTEQ | DIVEQ | MODEQ | ANDEQ | OREQ | XOREQ | LSHIFTEQ | RSHIFTEQ
-		; 
-
+		;
+		
+Expression
+	::= ConditionalExpression |
+		Assignment
+		;
+		
+ConstantExpression
+	::= Expression
+		;
 
 /* -------------------------------------------------- *
  *                     Statements                     *
@@ -1406,7 +1377,7 @@ VariableInitializerList
  * -------------------------------------------------- */
  
 interface_declaration
-	::= Attributes_Opt Modifiers_Opt INTERFACE IDENTIFIER LBRACE InterfaceMemberDeclarations_Opt RBRACE Semicolon_Opt
+	::= Attributes_Opt Modifiers_Opt INTERFACE IDENTIFIER InterfaceBase_Opt LBRACE InterfaceMemberDeclarations_Opt RBRACE Semicolon_Opt
 		;
 		
 InterfaceBase
@@ -1451,7 +1422,7 @@ enum_declaration
 		;
 		
 EnumBase
-	::= COLON IntegralType
+	::= COLON IntegralType_Possibilities
 		;
 				
 EnumMemberDeclarations
