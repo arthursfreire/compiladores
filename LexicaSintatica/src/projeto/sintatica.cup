@@ -419,6 +419,7 @@ non terminal	VariableInitializerList;
 non terminal	InterfaceBase;
 non terminal	InterfaceMemberDeclarations;
 non terminal	InterfaceMemberDeclaration;
+non terminal	InterfaceMethodDeclaration;
 non terminal	InterfacePropertyDeclaration;
 non terminal	InterfaceAcessors;
 non terminal	InterfaceEventDeclaration;
@@ -438,7 +439,6 @@ non terminal	EnumMemberDeclaration;
  
 non terminal	GlobalAttributeSections;
 non terminal	GlobalAttributeSection;
-non terminal	GlobalAttributeTargetSpecifier;
 non terminal	Attributes;
 non terminal	AttributeSections;
 non terminal	AttributeSection;
@@ -479,8 +479,6 @@ non terminal	Operator_Type_Lparen_Type_Identifier_Rparen;
 non terminal	AttributesOpt_Get_Semicolon;
 non terminal	AttributesOpt_Set_Semicolon;
 non terminal	AttibutesOpt_Identifier;
-non terminal	Lbrack_GlobalAttributeTargetSpecifier_AttributeList;
-non terminal	Lbrack_AttributeTargetSpecifierOpt_AttributeList;
  
 /* -------------------------------------------------- *
  *                Optional Declarations               *
@@ -859,7 +857,7 @@ LocalVariableDeclarators
 		
 LocalVariableDeclarator
 	::= IDENTIFIER |
-		IDENTIFIER EQ LocalVariableDeclarator
+		IDENTIFIER EQ LocalVariableInitializer
 		;
 		
 LocalVariableInitializer
@@ -1047,7 +1045,6 @@ ResourceAcquisition
 compilation_unit
 	::= UsingDirectives_Opt GlobalAttributes_Opt NamespaceMemberDeclarations_Opt
 		;
-
 
 NamespaceDeclaration
 	::= NAMESPACE QualifiedIdentifier NamespaceBody Semicolon_Opt
@@ -1388,9 +1385,16 @@ InterfaceMemberDeclarations
 	::= InterfaceMemberDeclaration |
 		InterfaceMemberDeclarations InterfaceMemberDeclaration
 		;
-
+		
 InterfaceMemberDeclaration
-	::= Attributes_Opt Modifiers ReturnType IDENTIFIER LPAREN FormalParameterList RPAREN SEMICOLON
+	::= InterfaceMethodDeclaration |
+		InterfacePropertyDeclaration |
+		InterfaceEventDeclaration |
+		InterfaceIndexerDeclaration
+		;
+
+InterfaceMethodDeclaration
+	::= Attributes_Opt Modifiers ReturnType IDENTIFIER LPAREN FormalParameterList_Opt RPAREN SEMICOLON
 		;
 		
 InterfacePropertyDeclaration
@@ -1634,14 +1638,7 @@ AttributesOpt_Set_Semicolon
 AttibutesOpt_Identifier
 	::= Attributes_Opt IDENTIFIER
 		;
-		
-Lbrack_GlobalAttributeTargetSpecifier_AttributeList
-	::= LBRACK GlobalAttributeTargetSpecifier AttributeList
-		;
-	
-Lbrack_AttributeTargetSpecifierOpt_AttributeList
-	::= LBRACK AttributeTargetSpecifier_Opt AttributeList
-		;
+
  
 /* -------------------------------------------------- *
  *                      Optional                      *

@@ -1,42 +1,13 @@
-using id;
+using teste = teste.teste.teste.teste.teste;
+using teste;
 
-[module: AssemblyTitle(), teste]
+[module: teste, teste, teste.teste,]
 
-namespace SampleNamespace {
+namespace teste {
 	
-	new class TesteClasse {
-		void teste() {
-			{;}
-			break;
-			continue;
-			goto identificador;
-			goto default;
-			
-			throw ;
-			
-			checked {}
-			unchecked {}
-
-		}
-		
-		public void metodo();
-		
-		
-		private struct TesteStruct {};
-		
-		public interface TesteInterface {}
-		
-		private enum EnumTeste {};
-		
-		
-		[method: teste, merda, chupa,] private delegate void DelegateTeste();
-	}
-
-	public interface TesteInterface {
+	using identificador = teste.teste.teste.teste.teste;
 	
+	public class Teste {
 	};
 	
-	private struct TesteStruct {};
-	
-	private enum EnumTeste {};
-}
+};
