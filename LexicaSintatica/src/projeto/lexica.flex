@@ -152,7 +152,7 @@ Identifier = ({Letter} | "_") ({Letter} | {Digit} | "_")*
 	"virtual"			{ return symbol(sym.VIRTUAL); }
 	"void"				{ return symbol(sym.VOID); }
 	"volatile"			{ return symbol(sym.VOLATILE); }
-	"while"				{ return symbol(sym.WHILE); }
+	"while"				{ return symbol(sym.WHILE); }	
 	
 	/* boolean literals */
  	"true"                         { return symbol(sym.TRUE); }

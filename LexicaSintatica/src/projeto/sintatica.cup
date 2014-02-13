@@ -680,12 +680,13 @@ PostDecrementExpression
 		;
 		
 ObjectCreationExpression
-	::= NEW type LPAREN ArgumentList_Opt RPAREN
+	::= NEW type LPAREN ArgumentList_Opt RPAREN |
+		NEW namespace_or_type_name LPAREN ArgumentList_Opt RPAREN
 		;
 		
 ArrayCreationExpression
 	::= NEW NonArrayType LBRACK ExpressionList RBRACK RankSpecifiers_Opt ArrayInitializer_Opt |
-		NEW ArrayType ArrayInitializer
+		NEW array_type ArrayInitializer
 		;
 		
 DelegateCreationExpression
@@ -853,12 +854,12 @@ LocalVariableDeclaration
 		
 LocalVariableDeclarators
 	::= LocalVariableDeclarator |
-		LocalVariableDeclarators LocalVariableDeclarator
+		LocalVariableDeclarators COMMA LocalVariableDeclarator
 		;
 		
 LocalVariableDeclarator
 	::= IDENTIFIER |
-		IDENTIFIER EQ LocalVariableDeclarator
+		IDENTIFIER EQ LocalVariableInitializer
 		;
 		
 LocalVariableInitializer
@@ -927,11 +928,11 @@ IterationStatement
 		;
 		
 WhileStatement
-	::= WHILE LPAREN BooleanExpression RPAREN EmbeddedStatement
+	::= WHILE LPAREN Expression RPAREN EmbeddedStatement
 		;
 		
 DoStatement
-	::= EmbeddedStatement WHILE LPAREN BooleanExpression RPAREN SEMICOLON
+	::= DO EmbeddedStatement WHILE LPAREN BooleanExpression RPAREN SEMICOLON
 		;
 		
 ForStatement
@@ -1192,7 +1193,7 @@ FormalParameterList
 		
 FixedParameters
 	::= FixedParameter |
-		FixedParameters FixedParameter
+		FixedParameters COMMA FixedParameter
 		;
 		
 FixedParameter
@@ -1200,7 +1201,7 @@ FixedParameter
 		;
 		
 ParameterArray
-	::= Attributes_Opt PARAMS ArrayType IDENTIFIER
+	::= Attributes_Opt PARAMS array_type IDENTIFIER
 		;
 		
 PropertyDeclaration
@@ -1226,8 +1227,8 @@ AcessorBody
 		;
 		
 EventDeclaration
-	::= AttributesOpt_ModifiersOpt_Event_Type VariableDeclarators SEMICOLON |
-		AttributesOpt_ModifiersOpt_Event_Type MemberName LBRACE EventAcessorDeclarations RBRACE
+	::= Attributes_Opt Modifiers_Opt EVENT type VariableDeclarators SEMICOLON |
+		Attributes_Opt Modifiers_Opt EVENT type MemberName LBRACE EventAcessorDeclarations RBRACE
 		;
 		
 EventAcessorDeclarations
@@ -1236,11 +1237,11 @@ EventAcessorDeclarations
 		;
 		
 AddAcessorDeclaration
-	::= Attributes ADD Block
+	::= Attributes_Opt ADD Block
 		;
 		
 RemoveAcessorDeclaration
-	::= Attributes REMOVE Block
+	::= Attributes_Opt REMOVE Block
 		;
 		
 IndexerDeclaration
@@ -1249,7 +1250,7 @@ IndexerDeclaration
 		
 IndexerDeclarator
 	::= type THIS LBRACK FormalParameterList RBRACK |
-		type InterfaceType DOT THIS LBRACK FormalParameterList RBRACK
+		type namespace_or_type_name DOT THIS LBRACK FormalParameterList RBRACK
 		;
 		
 OperatorDeclaration
@@ -1271,8 +1272,8 @@ BinaryOperatorDeclarator
 		;
 		
 ConversionOperatorDeclarator
-	::= IMPLICIT Operator_Type_Lparen_Type_Identifier_Rparen |
-		EXPLICIT Operator_Type_Lparen_Type_Identifier_Rparen
+	::= IMPLICIT OPERATOR type LPAREN type IDENTIFIER RPAREN |
+		EXPLICIT OPERATOR type LPAREN type IDENTIFIER RPAREN
 		;
 		
 OperatorBody
@@ -1281,11 +1282,7 @@ OperatorBody
 		;
 
 ConstructorDeclaration
-	::= Attributes_Opt Modifiers_Opt ConstructorDeclarator ConstructorBody
-		;
-		
-ConstructorDeclarator
-	::= IDENTIFIER LPAREN FormalParameterList_Opt RPAREN ConstructorInitializer_Opt
+	::= Attributes_Opt Modifiers_Opt IDENTIFIER LPAREN FormalParameterList_Opt RPAREN ConstructorInitializer_Opt ConstructorBody
 		;
 		
 ConstructorInitializer
@@ -1308,7 +1305,8 @@ StaticConstructorBody
 		;
 
 DestructorDeclaration
-	::= Attributes_Opt EXTERN COMP IDENTIFIER LPAREN RPAREN DestructorBody
+	::= Attributes_Opt EXTERN COMP IDENTIFIER LPAREN RPAREN DestructorBody |
+		Attributes_Opt COMP IDENTIFIER LPAREN RPAREN DestructorBody
 		;
 		
 DestructorBody
@@ -1316,7 +1314,7 @@ DestructorBody
 		;
 		
 /* -------------------------------------------------- *
- *                      Structs                      *
+ *                      Structs                       *
  * -------------------------------------------------- */
  
 struct_declaration
@@ -1396,11 +1394,11 @@ InterfaceMemberDeclaration
 		;
 
 InterfaceMethodDeclaration
-	::= Attributes_Opt Modifiers ReturnType IDENTIFIER LPAREN FormalParameterList_Opt RPAREN SEMICOLON
+	::= Attributes_Opt Modifier_Opt ReturnType IDENTIFIER LPAREN FormalParameterList_Opt RPAREN SEMICOLON
 		;
 		
 InterfacePropertyDeclaration
-	::= Attributes_Opt Modifiers type IDENTIFIER LBRACE InterfaceAcessors RBRACE
+	::= Attributes_Opt Modifier_Opt type IDENTIFIER LBRACE InterfaceAcessors RBRACE
 		;
 		
 InterfaceAcessors
@@ -1411,11 +1409,11 @@ InterfaceAcessors
 		;
 		
 InterfaceEventDeclaration
-	::= Attributes_Opt Modifiers EVENT type IDENTIFIER SEMICOLON
+	::= Attributes_Opt Modifier_Opt EVENT type IDENTIFIER SEMICOLON
 		;
 		
 InterfaceIndexerDeclaration
-	::= Attributes_Opt Modifiers type THIS LBRACK FormalParameterList RBRACK LBRACE InterfaceAcessors RBRACE
+	::= Attributes_Opt Modifier_Opt type THIS LBRACK FormalParameterList RBRACK LBRACE InterfaceAcessors RBRACE
 		;
 		
 /* -------------------------------------------------- *
@@ -1423,7 +1421,7 @@ InterfaceIndexerDeclaration
  * -------------------------------------------------- */
  
 enum_declaration
-	::= Attributes_Opt Modifiers_Opt ENUM IDENTIFIER EnumBase_Opt LBRACE EnumMemberDeclarations_Opt RBRACE Semicolon_Opt |
+	::= Attributes_Opt Modifiers_Opt ENUM IDENTIFIER EnumBase_Opt LBRACE RBRACE Semicolon_Opt |
 		Attributes_Opt Modifiers_Opt ENUM IDENTIFIER EnumBase_Opt LBRACE EnumMemberDeclarations COMMA RBRACE Semicolon_Opt
 		;
 		
