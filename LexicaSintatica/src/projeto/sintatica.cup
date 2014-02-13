@@ -188,6 +188,16 @@ terminal	SET;
 terminal	ADD;
 terminal	REMOVE;
 
+terminal	ASSEMBLY;
+
+terminal	FIELD;
+terminal	METHOD;
+terminal	MODULE;
+terminal	PARAM;
+terminal	PROPERTY;
+terminal	TYPE;
+
+
 /* -------------------------------------------------- *
  *            Main Productions Declarations           *
  * -------------------------------------------------- */
@@ -207,41 +217,114 @@ non terminal	interface_declaration;
 non terminal	enum_declaration;
 non terminal	delegate_declaration;
 non terminal	global_attributes;
-non terminal	attributes;
+non terminal	namespace_or_type_name_line;
+
+non terminal	literal;
 
 /* -------------------------------------------------- *
  *                 Types Declarations                 *
  * -------------------------------------------------- */
 
-non terminal	ValueType;
-non terminal	StructType;
-non terminal	SimpleType;
-non terminal	NumericType;
-non terminal	IntegralType;
-non terminal	FloatingPointType;
-non terminal	EnumType;
-non terminal	ReferenceType;
-non terminal	ClassType;
 non terminal	InterfaceType;
 non terminal	ArrayType;
-non terminal	NonArrayType;
-non terminal	RankSpecifiers;
-non terminal	RankSpecifier;
-non terminal	DimSeparators;
-non terminal	DelegateType;
 
 /* -------------------------------------------------- *
  *              Expressions Declarations              *
  * -------------------------------------------------- */
 
-non terminal	ArgumentList;
+non terminal	Argument;
+non terminal	PrimaryExpression;
+non terminal	PrimaryNoArrayCreationExpression;
+non terminal	ParenthesizedExpression;
+non terminal	MemberAccess;
+non terminal	PredefinedType;
+non terminal	InvocationExpression;
+non terminal	ElementAccess;
+non terminal	ExpressionList;
+non terminal	ThisAccess;
+non terminal	BaseAccess;
+non terminal	PostIncrementExpression;
+non terminal	PostDecrementExpression;
+non terminal	ObjectCreationExpression;
+non terminal	ArrayCreationExpression;
+non terminal	DelegateCreationExpression;
+non terminal	TypeofExpression;
+non terminal	SizeofExpression;
+non terminal	CheckedExpression;
+non terminal	UncheckedExpression;
+non terminal	UnaryExpression;
+non terminal	PreIncrementExpression;
+non terminal	PreDecrementExpression;
+non terminal	CastExpression;
+non terminal	MultiplicativeExpression;
+non terminal	AdditiveExpression;
+non terminal	ShiftExpression;
+non terminal	RelationalExpression;
+non terminal	EqualityExpression;
+non terminal	AndExpression;
+non terminal	ExclusiveOrExpression;
+non terminal	InclusiveOrExpression;
+non terminal	ConditionalAndExpression;
+non terminal	ConditionalOrExpression;
+non terminal	ConditionalExpression;
+non terminal	Assignment;
+non terminal	AssignmentOperator;
 non terminal	Expression;
 non terminal	ConstantExpression;
 
 /* -------------------------------------------------- *
  *              Statements Declarations               *
  * -------------------------------------------------- */
+ 
+non terminal	EmbeddedStatement;
 non terminal	Block;
+non terminal	StatementList;
+non terminal	EmptyStatement;
+non terminal	LabeledStatement;
+non terminal	DeclarationStatement;
+non terminal	ExpressionStatement;
+non terminal	JumpStatement;
+non terminal	TryStatement;
+non terminal	CheckedStatement;
+non terminal	UncheckedStatement;
+non terminal	LockStatement;
+non terminal	UsingStatement;
+non terminal	LocalVariableDeclaration;
+non terminal	LocalConstantDeclaration;
+non terminal	LocalVariableDeclarators;
+non terminal	LocalVariableDeclarator;
+non terminal	LocalVariableInitializer;
+non terminal	StatementExpression;
+non terminal	SelectionStatement;
+non terminal	IfStatement;
+non terminal	SwitchStatement;
+non terminal	BooleanExpression;
+non terminal	SwitchBlock;
+non terminal	SwitchSections;
+non terminal	SwitchSection;
+non terminal	SwitchLabels;
+non terminal	SwitchLabel;
+non terminal	IterationStatement;
+non terminal	WhileStatement;
+non terminal	DoStatement;
+non terminal	ForStatement;
+non terminal	ForeachStatement;
+non terminal	ForInitializer;
+non terminal	ForCondition;
+non terminal	ForIterator;
+non terminal	StatementExpressionList;
+non terminal	BreakStatement;
+non terminal	ContinueStatement;
+non terminal	GotoStatement;
+non terminal	ReturnStatement;
+non terminal	ThrowStatement;
+non terminal	CatchClauses;
+non terminal	SpecificCatchClauses;
+non terminal	SpecificCatchClause;
+non terminal	GeneralCatchClause;
+non terminal	FinallyClause;
+non terminal	UncheckedCatchClause;
+non terminal	ResourceAcquisition;
 
 /* -------------------------------------------------- *
  *               Namespace Declarations               *
@@ -262,81 +345,114 @@ non terminal	TypeDeclaration;
  *                Classes Declarations                *
  * -------------------------------------------------- */
  
-non terminal	ClassModifiers;
-non terminal	ClassModifier;
 non terminal	ClassBase;
 non terminal	InterfaceTypeList;
 non terminal	ClassBody;
 non terminal	ClassMemberDeclarations;
 non terminal	ClassMemberDeclaration;
 non terminal	ConstantDeclaration;
-non terminal	ConstantModifiers;
-non terminal	ConstantModifier;
 non terminal	ConstantDeclarators;
 non terminal	ConstantDeclarator;
 non terminal	FieldDeclaration;
-non terminal	FieldModifiers;
-non terminal	FieldModifier;
 non terminal	VariableDeclarators;
 non terminal	VariableDeclarator;
 non terminal	VariableInitializer;
 non terminal	MethodDeclaration;
 non terminal	MethodHeader;
-non terminal	MethodModifiers;
-non terminal	MethodModifier;
 non terminal	ReturnType;
 non terminal	MemberName;
 non terminal	MethodBody;
 non terminal	FormalParameterList;
 non terminal	FixedParameters;
 non terminal	FixedParameter;
-non terminal	ParameterModifier;
 non terminal	ParameterArray;
 non terminal	PropertyDeclaration;
-non terminal	PropertyModifiers;
-non terminal	PropertyModifier;
 non terminal	AcessorDeclarations;
 non terminal	GetAcessorDeclaration;
 non terminal	SetAcessorDeclaration;
 non terminal	AcessorBody;
 non terminal	EventDeclaration;
-non terminal	EventModifiers;
-non terminal	EventModifier;
 non terminal	EventAcessorDeclarations;
-non terminal	EventAcessorDeclaration;
 non terminal	AddAcessorDeclaration;
 non terminal	RemoveAcessorDeclaration;
 non terminal	IndexerDeclaration;
-non terminal	IndexerModifiers;
-non terminal	IndexerModifier;
 non terminal	IndexerDeclarator;
 non terminal	OperatorDeclaration;
-non terminal	OperatorModifiers;
-non terminal	OperatorModifier;
 non terminal	OperatorDeclarator;
 non terminal	UnaryOperatorDeclarator;
-non terminal	OverloadableUnaryOperator;
 non terminal	BinaryOperatorDeclarator;
-non terminal	OverloadableBinaryOperator;
 non terminal	ConversionOperatorDeclarator;
 non terminal	OperatorBody;
 non terminal	ConstructorDeclaration;
-non terminal	ConstructorModifiers;
-non terminal	ConstructorModifier;
 non terminal	ConstructorDeclarator;
 non terminal	ConstructorInitializer;
 non terminal	ConstructorBody;
 non terminal	StaticConstructorDeclaration;
-non terminal	StaticConstructorModifiers;
 non terminal	StaticConstructorBody;
 non terminal	DestructorDeclaration;
 non terminal	DestructorBody;
 
 /* -------------------------------------------------- *
+ *                Structs Declarations                *
+ * -------------------------------------------------- */
+
+non terminal	StructInterfaces;
+non terminal	StructMemberDeclarations;
+non terminal	StructMemberDeclaration;
+
+/* -------------------------------------------------- *
  *                 Array Declarations                 *
  * -------------------------------------------------- */
- 
+
+non terminal	NonArrayType;
+non terminal	RankSpecifiers;
+non terminal	RankSpecifier;
+non terminal	DimSeparators; 
 non terminal	ArrayInitializer;
+non terminal	VariableInitializerList;
+
+/* -------------------------------------------------- *
+ *               Interfaces Declarations              *
+ * -------------------------------------------------- */
+ 
+non terminal	InterfaceBase;
+non terminal	InterfaceMemberDeclarations;
+non terminal	InterfaceMemberDeclaration;
+non terminal	InterfaceMethodDeclaration;
+non terminal	InterfacePropertyDeclaration;
+non terminal	InterfaceAcessors;
+non terminal	InterfaceEventDeclaration;
+non terminal	InterfaceIndexerDeclaration;
+
+/* -------------------------------------------------- *
+ *                 Enum Declarations                  *
+ * -------------------------------------------------- */
+
+non terminal	EnumBase;
+non terminal	EnumMemberDeclarations;
+non terminal	EnumMemberDeclaration;
+
+/* -------------------------------------------------- *
+ *              Attributes Declarations               *
+ * -------------------------------------------------- */
+ 
+non terminal	GlobalAttributeSections;
+non terminal	GlobalAttributeSection;
+non terminal	GlobalAttributeTargetSpecifier;
+non terminal	Attributes;
+non terminal	AttributeSections;
+non terminal	AttributeSection;
+non terminal	AttributeTargetSpecifier;
+non terminal	AttributeTarget;
+non terminal	AttributeList;
+non terminal	Attribute;
+non terminal	AttributeName;
+non terminal	AttributeArguments;
+non terminal	PositionalArgumentList;
+non terminal	PositionalArgument;
+non terminal	NamedArgumentList;
+non terminal	NamedArgument;
+non terminal	AttributeArgumentExpression;
 
 /* -------------------------------------------------- *
  *             Possibilities Declarations             *
@@ -349,14 +465,19 @@ non terminal	Modifiers_Opt;
 non terminal	ClassMemberDeclaration_Possibilities;
 non terminal	Operator;
 non terminal	IntegralType_Possibilities;
+non terminal	StructMemberDeclaration_Possibilities;
+non terminal	EmbeddedStatement_Possibilities;
+non terminal	StatementExpression_Possibilities;
 
 /* -------------------------------------------------- *
  *               Repetition Declarations              *
  * -------------------------------------------------- */
  
-non terminal	Colon_ClassType;
 non terminal	AttributesOpt_ModifiersOpt_Event_Type;
 non terminal	Operator_Type_Lparen_Type_Identifier_Rparen;
+non terminal	AttributesOpt_Get_Semicolon;
+non terminal	AttributesOpt_Set_Semicolon;
+non terminal	AttibutesOpt_Identifier;
  
 /* -------------------------------------------------- *
  *                Optional Declarations               *
@@ -367,32 +488,53 @@ non terminal	GlobalAttributes_Opt;
 non terminal	NamespaceMemberDeclarations_Opt;
 non terminal	Semicolon_Opt;
 non terminal	Attributes_Opt;
-non terminal	ClassModifiers_Opt;
 non terminal	ClassBase_Opt;
 non terminal	ClassMemberDeclarations_Opt;
-non terminal	ConstantModifiers_Opt;
-non terminal	FieldModifiers_Opt;
-non terminal	MethodModifiers_Opt;
 non terminal	FormalParameterList_Opt;
-non terminal	ParameterModifier_Opt;
-non terminal	PropertyModifiers_Opt;
 non terminal	SetAcessorDeclaration_Opt;
 non terminal	GetAcessorDeclaration_Opt;
-non terminal	EventModifiers_Opt;
-non terminal	IndexerModifiers_Opt;
-non terminal	ConstructorModifiers_Opt;
 non terminal	ConstructorInitializer_Opt;
 non terminal	ArgumentList_Opt;
 non terminal	DimSeparators_Opt;
+non terminal	VariableInitializerList_Opt;
+non terminal	InterfaceBase_Opt;
+non terminal	InterfaceMemberDeclarations_Opt;
+non terminal	StructInterfaces_Opt;
+non terminal	StructMemberDeclarations_Opt;
+non terminal	EnumBase_Opt;
+non terminal	EnumMemberDeclarations_Opt;
+non terminal	AttributeTargetSpecifier_Opt;
+non terminal	AttributeArguments_Opt;
+non terminal	PositionalArgumentList_Opt;
+non terminal	Comma_Opt;
+non terminal	StatementList_Opt;
+non terminal	SwitchSections_Opt;
+non terminal	ForInitializer_Opt;
+non terminal	ForCondition_Opt;
+non terminal	ForIterator_Opt;
+non terminal	Expression_Opt;
+non terminal	GeneralCatchClause_Opt;
+non terminal	SpecificCatchClauses_Opt;
+non terminal	Identifier_Opt;
+non terminal	RankSpecifiers_Opt;
+non terminal	ArrayInitializer_Opt;
 
-precedence left SEMICOLON;
-precedence left COMMA;
-precedence left NOT,COMP;
-precedence left MINUS,PLUS;
-precedence left IDENTIFIER;
-precedence left IF,ELSE,RETURN,CONTINUE,BREAK;
-precedence left LPAREN, RPAREN;
-precedence left STATIC;
+
+
+precedence left 	THIS, OPERATOR;
+precedence left		STATIC;
+precedence left 	IDENTIFIER;
+precedence left 	BOOL, DECIMAL; 
+precedence left 	SBYTE, BYTE, SHORT, USHORT, INT, UINT, LONG, ULONG, CHAR, DOUBLE, FLOAT, STRING, OBJECT;
+precedence left 	LBRACE, RBRACE;
+precedence left 	LBRACK, RBRACK;
+precedence left 	LPAREN, RPAREN;
+precedence left 	IF, ELSE, RETURN, CONTINUE, BREAK;
+precedence left		CATCH, WHILE;
+precedence left		FINALLY;
+precedence left		DOT;
+
+
 
 start with compilation_unit;
 
@@ -400,6 +542,14 @@ start with compilation_unit;
 /* #################### GRAMMAR ##################### */
 /* ################################################## */
 
+
+literal
+	::= TRUE | FALSE |
+		INTEGER_LITERAL |
+		REAL_LITERAL |
+		STRING_LITERAL |
+		NULL
+		;
 
 /* -------------------------------------------------- *
  *                   Basic Concepts                   *
@@ -414,14 +564,481 @@ type_name
 		;
 		
 namespace_or_type_name
-	::= IDENTIFIER |
+	::= IDENTIFIER | 
 		namespace_or_type_name DOT IDENTIFIER
+		;
+		
+namespace_or_type_name_line
+	::= | namespace_or_type_name DOT IDENTIFIER
 		;
 		
 /* -------------------------------------------------- *
  *                       Types                        *
  * -------------------------------------------------- */
+ 
+type
+	::= namespace_or_type_name |
+		IntegralType_Possibilities |
+		BOOL |
+		FLOAT |
+		DOUBLE |
+		DECIMAL |
+		OBJECT |
+		STRING |
+		array_type
+		;
+		 
+/* -------------------------------------------------- *
+ *                     Variables                      *
+ * -------------------------------------------------- */
+ 
+variable_reference
+	::= Expression
+		;
+ 
+/* -------------------------------------------------- *
+ *                    Expressions                     *
+ * -------------------------------------------------- */
 
+argument_list
+	::= Argument |
+		argument_list COMMA Argument
+		;
+		
+Argument
+	::= Expression |
+		REF variable_reference |
+		OUT variable_reference
+		;
+		
+PrimaryExpression
+	::= PrimaryNoArrayCreationExpression |
+		ArrayCreationExpression
+		;
+		
+PrimaryNoArrayCreationExpression
+	::= literal |
+		IDENTIFIER |
+		ParenthesizedExpression |
+		MemberAccess |
+		InvocationExpression |
+		ElementAccess |
+		ThisAccess |
+		BaseAccess |
+		PostIncrementExpression |
+		PostDecrementExpression |
+		ObjectCreationExpression |
+		DelegateCreationExpression |
+		TypeofExpression |
+		SizeofExpression |
+		CheckedExpression |
+		UncheckedExpression
+		;
+		
+ParenthesizedExpression
+	::= LPAREN Expression RPAREN
+		;
+		
+MemberAccess
+	::= PrimaryExpression DOT IDENTIFIER |
+		PredefinedType DOT IDENTIFIER
+		;
+		
+PredefinedType
+	::= BOOL | BYTE | CHAR | DECIMAL | DOUBLE | FLOAT | INT | LONG |
+		OBJECT | SBYTE | SHORT | STRING | UINT | ULONG | USHORT
+		;		
+
+InvocationExpression
+	::= PrimaryExpression LPAREN ArgumentList_Opt RPAREN
+		;
+		
+ElementAccess
+	::= PrimaryNoArrayCreationExpression LBRACK ExpressionList RBRACK
+		;
+		
+ExpressionList
+	::= Expression |
+		ExpressionList COMMA Expression
+		;
+		
+ThisAccess
+	::= THIS
+		;
+		
+BaseAccess
+	::= BASE DOT IDENTIFIER |
+		BASE LBRACK ExpressionList RBRACK
+		;
+
+PostIncrementExpression
+	::= PrimaryExpression PLUSPLUS
+		;
+		
+PostDecrementExpression
+	::= PrimaryExpression MINUSMINUS
+		;
+		
+ObjectCreationExpression
+	::= NEW type LPAREN ArgumentList_Opt RPAREN |
+		NEW namespace_or_type_name LPAREN ArgumentList_Opt RPAREN
+		;
+		
+ArrayCreationExpression
+	::= NEW NonArrayType LBRACK ExpressionList RBRACK RankSpecifiers_Opt ArrayInitializer_Opt |
+		NEW array_type ArrayInitializer
+		;
+		
+DelegateCreationExpression
+	::= NEW namespace_or_type_name LPAREN Expression RPAREN
+		;
+		
+TypeofExpression
+	::= TYPEOF LPAREN type RPAREN |
+		TYPEOF LPAREN VOID RPAREN
+		;
+		
+CheckedExpression
+	::= CHECKED LPAREN Expression RPAREN
+		;
+		
+UncheckedExpression
+	::= UNCHECKED LPAREN Expression RPAREN
+		;
+		
+UnaryExpression
+	::= PrimaryExpression |
+		PLUS UnaryExpression |
+		MINUS UnaryExpression |
+		NOT UnaryExpression |
+		COMP UnaryExpression |
+		MULT UnaryExpression |
+		PreIncrementExpression |
+		PreDecrementExpression |
+		CastExpression
+		;
+		
+PreIncrementExpression
+	::= PLUSPLUS PrimaryExpression
+		;
+		
+PreDecrementExpression
+	::= MINUSMINUS PrimaryExpression
+		;
+		
+CastExpression
+	::= LPAREN type RPAREN UnaryExpression
+		;
+		
+MultiplicativeExpression
+	::= UnaryExpression |
+		MultiplicativeExpression MULT UnaryExpression |
+		MultiplicativeExpression DIV UnaryExpression |
+		MultiplicativeExpression MOD UnaryExpression
+		;
+		
+AdditiveExpression
+	::= MultiplicativeExpression |
+		AdditiveExpression PLUS MultiplicativeExpression |
+		AdditiveExpression MINUS MultiplicativeExpression
+		;
+		
+ShiftExpression
+	::= AdditiveExpression |
+		ShiftExpression LSHIFT AdditiveExpression |
+		ShiftExpression RSHIFT AdditiveExpression
+		;
+		
+RelationalExpression
+	::= ShiftExpression |
+		RelationalExpression LT ShiftExpression |
+		RelationalExpression GT ShiftExpression |
+		RelationalExpression LTEQ ShiftExpression |
+		RelationalExpression GTEQ ShiftExpression |
+		RelationalExpression IS ShiftExpression |
+		RelationalExpression AS ShiftExpression
+		;
+		
+EqualityExpression
+	::= RelationalExpression |
+		EqualityExpression EQEQ RelationalExpression |
+		EqualityExpression NOTEQ RelationalExpression
+		;
+		
+AndExpression
+	::= EqualityExpression | 
+		EqualityExpression AND EqualityExpression
+		;
+		
+ExclusiveOrExpression
+	::= AndExpression |
+		ExclusiveOrExpression XOR AndExpression
+		;
+		
+InclusiveOrExpression
+	::= ExclusiveOrExpression |
+		InclusiveOrExpression OR ExclusiveOrExpression
+		;
+		
+ConditionalAndExpression
+	::= InclusiveOrExpression |
+		ConditionalAndExpression ANDAND InclusiveOrExpression
+		;
+		
+ConditionalOrExpression
+	::= ConditionalAndExpression |
+		ConditionalOrExpression OROR ConditionalAndExpression
+		;
+		
+ConditionalExpression
+	::= ConditionalOrExpression |
+		ConditionalOrExpression QUESTION Expression COLON Expression
+		;
+		
+Assignment
+	::= UnaryExpression AssignmentOperator Expression
+		;
+		
+AssignmentOperator
+	::= EQ | PLUSEQ | MINUSEQ | MULTEQ | DIVEQ | MODEQ | ANDEQ | OREQ | XOREQ | LSHIFTEQ | RSHIFTEQ
+		;
+		
+Expression
+	::= ConditionalExpression |
+		Assignment
+		;
+		
+ConstantExpression
+	::= Expression
+		;
+
+/* -------------------------------------------------- *
+ *                     Statements                     *
+ * -------------------------------------------------- */
+
+statement
+	::= LabeledStatement |
+		DeclarationStatement |
+		EmbeddedStatement
+		;
+		
+EmbeddedStatement
+	::= EmbeddedStatement_Possibilities
+		;
+		
+Block
+	::= LBRACE StatementList_Opt RBRACE
+		;
+		
+StatementList
+	::= statement |
+		StatementList statement
+		;
+		
+EmptyStatement
+	::= SEMICOLON
+		;
+		
+LabeledStatement
+	::= IDENTIFIER COLON statement
+		;
+		
+DeclarationStatement
+	::= LocalVariableDeclaration SEMICOLON |
+		LocalConstantDeclaration SEMICOLON
+		;
+		
+LocalVariableDeclaration
+	::= type LocalVariableDeclarators
+		;
+		
+LocalVariableDeclarators
+	::= LocalVariableDeclarator |
+		LocalVariableDeclarators COMMA LocalVariableDeclarator
+		;
+		
+LocalVariableDeclarator
+	::= IDENTIFIER |
+		IDENTIFIER EQ LocalVariableInitializer
+		;
+		
+LocalVariableInitializer
+	::= Expression |
+		ArrayInitializer
+		;
+		
+LocalConstantDeclaration
+	::= CONST type ConstantDeclarators
+		;
+
+ExpressionStatement
+	::= StatementExpression SEMICOLON
+		;
+		
+StatementExpression
+	::= StatementExpression_Possibilities
+		;
+		
+SelectionStatement
+	::= IfStatement |
+		SwitchStatement
+		;
+		
+IfStatement
+	::= IF LPAREN BooleanExpression RPAREN EmbeddedStatement |
+		IF LPAREN BooleanExpression RPAREN EmbeddedStatement ELSE EmbeddedStatement
+		;
+		
+BooleanExpression
+	::= Expression
+		;
+		
+SwitchStatement
+	::= SWITCH LPAREN Expression RPAREN SwitchBlock
+		;
+		
+SwitchBlock
+	::= LBRACE SwitchSections_Opt RBRACE
+		;
+		
+SwitchSections
+	::= SwitchSection |
+		SwitchSections SwitchSection
+		;
+
+SwitchSection
+	::= SwitchLabels StatementList
+		;
+		
+SwitchLabels
+	::= SwitchLabel |
+		SwitchLabels SwitchLabel
+		;
+		
+SwitchLabel
+	::= CASE ConstantExpression COLON |
+		DEFAULT COLON
+		;
+		
+IterationStatement
+	::= WhileStatement |
+		DoStatement |
+		ForStatement |
+		ForeachStatement
+		;
+		
+WhileStatement
+	::= WHILE LPAREN Expression RPAREN EmbeddedStatement
+		;
+		
+DoStatement
+	::= DO EmbeddedStatement WHILE LPAREN BooleanExpression RPAREN SEMICOLON
+		;
+		
+ForStatement
+	::= FOR LPAREN ForInitializer_Opt SEMICOLON ForCondition_Opt SEMICOLON ForIterator_Opt RPAREN EmbeddedStatement
+		;
+		
+ForInitializer
+	::= LocalVariableDeclaration |
+		StatementExpressionList
+		;
+
+ForCondition
+	::= BooleanExpression
+		;
+		
+ForIterator
+	::= StatementExpressionList
+		;
+
+StatementExpressionList
+	::= StatementExpression |
+		StatementExpressionList COMMA StatementExpression
+		;
+		
+ForeachStatement
+	::= FOREACH LPAREN type IDENTIFIER IN Expression RPAREN EmbeddedStatement
+		;
+		
+JumpStatement
+	::= BreakStatement |
+		ContinueStatement |
+		GotoStatement |
+		ReturnStatement |
+		ThrowStatement
+		;
+		
+BreakStatement
+	::= BREAK SEMICOLON
+		;
+		
+ContinueStatement
+	::= CONTINUE SEMICOLON
+		;
+		
+GotoStatement
+	::= GOTO IDENTIFIER |
+		GOTO CASE ConstantExpression SEMICOLON |
+		GOTO DEFAULT SEMICOLON
+		;
+		
+ReturnStatement
+	::= RETURN Expression_Opt SEMICOLON
+		;
+		
+ThrowStatement
+	::= THROW Expression_Opt SEMICOLON
+		;
+	
+TryStatement
+	::= TRY Block CatchClauses |
+		TRY Block FinallyClause |
+		TRY Block CatchClauses FinallyClause
+		;
+		
+CatchClauses
+	::= SpecificCatchClauses GeneralCatchClause_Opt |
+		SpecificCatchClauses_Opt GeneralCatchClause
+		;
+		
+SpecificCatchClauses
+	::= SpecificCatchClause |
+		SpecificCatchClauses SpecificCatchClause
+		;
+		
+SpecificCatchClause
+	::= CATCH LPAREN type Identifier_Opt RPAREN Block
+		;
+		
+GeneralCatchClause
+	::= CATCH Block
+		;
+		
+FinallyClause
+	::= FINALLY Block
+		;
+		
+CheckedStatement
+	::= CHECKED Block
+		;
+		
+UncheckedStatement
+	::= UNCHECKED Block
+		;
+		
+LockStatement
+	::= LOCK LPAREN Expression RPAREN EmbeddedStatement
+		;
+		
+UsingStatement
+	::= USING LPAREN ResourceAcquisition RPAREN EmbeddedStatement
+		;
+		
+ResourceAcquisition
+	::= LocalVariableDeclaration |
+		Expression
+		;
 
 /* -------------------------------------------------- *
  *                     Namespaces                     *
@@ -490,14 +1107,14 @@ class_declaration
 		;
 		
 ClassBase
-	::= Colon_ClassType |
+	::= COLON type |
 		COLON InterfaceTypeList |
-		Colon_ClassType COMMA InterfaceTypeList
+		COLON type COMMA InterfaceTypeList
 		;
 		
 InterfaceTypeList
-	::= InterfaceType |
-		InterfaceTypeList COMMA InterfaceType
+	::= type_name |
+		InterfaceTypeList COMMA type_name
 		;
 		
 ClassBody
@@ -576,7 +1193,7 @@ FormalParameterList
 		
 FixedParameters
 	::= FixedParameter |
-		FixedParameters FixedParameter
+		FixedParameters COMMA FixedParameter
 		;
 		
 FixedParameter
@@ -584,7 +1201,7 @@ FixedParameter
 		;
 		
 ParameterArray
-	::= Attributes_Opt PARAMS ArrayType IDENTIFIER
+	::= Attributes_Opt PARAMS array_type IDENTIFIER
 		;
 		
 PropertyDeclaration
@@ -610,8 +1227,8 @@ AcessorBody
 		;
 		
 EventDeclaration
-	::= AttributesOpt_ModifiersOpt_Event_Type VariableDeclarators SEMICOLON |
-		AttributesOpt_ModifiersOpt_Event_Type MemberName LBRACE EventAcessorDeclarations RBRACE
+	::= Attributes_Opt Modifiers_Opt EVENT type VariableDeclarators SEMICOLON |
+		Attributes_Opt Modifiers_Opt EVENT type MemberName LBRACE EventAcessorDeclarations RBRACE
 		;
 		
 EventAcessorDeclarations
@@ -620,11 +1237,11 @@ EventAcessorDeclarations
 		;
 		
 AddAcessorDeclaration
-	::= attributes ADD Block
+	::= Attributes_Opt ADD Block
 		;
 		
 RemoveAcessorDeclaration
-	::= attributes REMOVE Block
+	::= Attributes_Opt REMOVE Block
 		;
 		
 IndexerDeclaration
@@ -633,7 +1250,7 @@ IndexerDeclaration
 		
 IndexerDeclarator
 	::= type THIS LBRACK FormalParameterList RBRACK |
-		type InterfaceType DOT THIS LBRACK FormalParameterList RBRACK
+		type namespace_or_type_name DOT THIS LBRACK FormalParameterList RBRACK
 		;
 		
 OperatorDeclaration
@@ -655,8 +1272,8 @@ BinaryOperatorDeclarator
 		;
 		
 ConversionOperatorDeclarator
-	::= IMPLICIT Operator_Type_Lparen_Type_Identifier_Rparen |
-		EXPLICIT Operator_Type_Lparen_Type_Identifier_Rparen
+	::= IMPLICIT OPERATOR type LPAREN type IDENTIFIER RPAREN |
+		EXPLICIT OPERATOR type LPAREN type IDENTIFIER RPAREN
 		;
 		
 OperatorBody
@@ -665,11 +1282,7 @@ OperatorBody
 		;
 
 ConstructorDeclaration
-	::= Attributes_Opt Modifiers_Opt ConstructorDeclarator ConstructorBody
-		;
-		
-ConstructorDeclarator
-	::= IDENTIFIER LPAREN FormalParameterList_Opt RPAREN ConstructorInitializer_Opt
+	::= Attributes_Opt Modifiers_Opt IDENTIFIER LPAREN FormalParameterList_Opt RPAREN ConstructorInitializer_Opt ConstructorBody
 		;
 		
 ConstructorInitializer
@@ -692,13 +1305,229 @@ StaticConstructorBody
 		;
 
 DestructorDeclaration
-	::= Attributes_Opt EXTERN COMP IDENTIFIER LPAREN RPAREN DestructorBody
+	::= Attributes_Opt EXTERN COMP IDENTIFIER LPAREN RPAREN DestructorBody |
+		Attributes_Opt COMP IDENTIFIER LPAREN RPAREN DestructorBody
 		;
 		
 DestructorBody
 	::= Block
 		;
 		
+/* -------------------------------------------------- *
+ *                      Structs                       *
+ * -------------------------------------------------- */
+ 
+struct_declaration
+	::= Attributes_Opt Modifiers_Opt STRUCT IDENTIFIER StructInterfaces_Opt LBRACE StructMemberDeclarations_Opt RBRACE Semicolon_Opt
+		;
+ 
+StructInterfaces
+	::= COLON InterfaceTypeList
+		;
+		
+StructMemberDeclarations
+	::= StructMemberDeclaration |
+		StructMemberDeclarations StructMemberDeclaration
+		;
+		
+StructMemberDeclaration
+	::= StructMemberDeclaration_Possibilities
+		;
+		
+/* -------------------------------------------------- *
+ *                       Arrays                       *
+ * -------------------------------------------------- */
+ 
+array_type
+	::= NonArrayType RankSpecifiers
+		;
+		
+NonArrayType
+	::= type;
+	
+RankSpecifiers
+	::= RankSpecifier |
+		RankSpecifiers RankSpecifier
+		;
+
+RankSpecifier
+	::= LBRACK DimSeparators_Opt RBRACK
+		;
+		
+DimSeparators
+	::= COMMA |
+		DimSeparators COMMA
+		;
+		
+ArrayInitializer
+	::= LBRACE VariableInitializerList_Opt RBRACE |
+		LBRACE VariableInitializerList COMMA RBRACE
+		;
+		
+VariableInitializerList
+	::= VariableInitializer |
+		VariableInitializerList COMMA VariableInitializer
+		;
+		
+/* -------------------------------------------------- *
+ *                     Interfaces                     *
+ * -------------------------------------------------- */
+ 
+interface_declaration
+	::= Attributes_Opt Modifiers_Opt INTERFACE IDENTIFIER InterfaceBase_Opt LBRACE InterfaceMemberDeclarations_Opt RBRACE Semicolon_Opt
+		;
+		
+InterfaceBase
+	::= COLON InterfaceTypeList
+		;
+		
+InterfaceMemberDeclarations
+	::= InterfaceMemberDeclaration |
+		InterfaceMemberDeclarations InterfaceMemberDeclaration
+		;
+		
+InterfaceMemberDeclaration
+	::= InterfaceMethodDeclaration |
+		InterfacePropertyDeclaration |
+		InterfaceEventDeclaration |
+		InterfaceIndexerDeclaration
+		;
+
+InterfaceMethodDeclaration
+	::= Attributes_Opt Modifier_Opt ReturnType IDENTIFIER LPAREN FormalParameterList_Opt RPAREN SEMICOLON
+		;
+		
+InterfacePropertyDeclaration
+	::= Attributes_Opt Modifier_Opt type IDENTIFIER LBRACE InterfaceAcessors RBRACE
+		;
+		
+InterfaceAcessors
+	::= AttributesOpt_Get_Semicolon |
+		AttributesOpt_Set_Semicolon |
+		AttributesOpt_Get_Semicolon AttributesOpt_Set_Semicolon |
+		AttributesOpt_Set_Semicolon AttributesOpt_Get_Semicolon
+		;
+		
+InterfaceEventDeclaration
+	::= Attributes_Opt Modifier_Opt EVENT type IDENTIFIER SEMICOLON
+		;
+		
+InterfaceIndexerDeclaration
+	::= Attributes_Opt Modifier_Opt type THIS LBRACK FormalParameterList RBRACK LBRACE InterfaceAcessors RBRACE
+		;
+		
+/* -------------------------------------------------- *
+ *                        Enum                        *
+ * -------------------------------------------------- */
+ 
+enum_declaration
+	::= Attributes_Opt Modifiers_Opt ENUM IDENTIFIER EnumBase_Opt LBRACE RBRACE Semicolon_Opt |
+		Attributes_Opt Modifiers_Opt ENUM IDENTIFIER EnumBase_Opt LBRACE EnumMemberDeclarations COMMA RBRACE Semicolon_Opt
+		;
+		
+EnumBase
+	::= COLON IntegralType_Possibilities
+		;
+				
+EnumMemberDeclarations
+	::= EnumMemberDeclaration |
+		EnumMemberDeclarations COMMA EnumMemberDeclaration
+		;
+		
+EnumMemberDeclaration
+	::= AttibutesOpt_Identifier |
+		AttibutesOpt_Identifier EQ ConstantExpression
+		;
+		
+/* -------------------------------------------------- *
+ *                     Delegates                      *
+ * -------------------------------------------------- */
+ 
+delegate_declaration
+	::= Attributes_Opt Modifiers_Opt DELEGATE ReturnType IDENTIFIER LPAREN FormalParameterList_Opt RPAREN SEMICOLON
+		;
+		
+/* -------------------------------------------------- *
+ *                     Attributes                     *
+ * -------------------------------------------------- */
+ 
+global_attributes
+	::= GlobalAttributeSections
+		;
+		
+GlobalAttributeSections
+	::= GlobalAttributeSection |
+		GlobalAttributeSections GlobalAttributeSection
+		;
+		
+
+GlobalAttributeSection
+	::= LBRACK ASSEMBLY COLON AttributeList Comma_Opt RBRACK |
+		LBRACK MODULE COLON AttributeList Comma_Opt RBRACK
+		;
+		
+Attributes
+	::= AttributeSections
+		;
+		
+AttributeSections
+	::= AttributeSection |
+		AttributeSections AttributeSection
+		;
+
+AttributeSection
+	::= LBRACK AttributeTargetSpecifier_Opt AttributeList Comma_Opt RBRACK
+		;
+		
+AttributeTargetSpecifier
+	::= AttributeTarget COLON
+		;
+		
+AttributeTarget
+	::= FIELD | EVENT | METHOD | PARAM | PROPERTY | RETURN | TYPE
+		;
+		
+AttributeList
+	::= Attribute |
+		AttributeList COMMA Attribute
+		;
+		
+Attribute
+	::= AttributeName AttributeArguments_Opt
+		;
+		
+AttributeName
+	::= type_name
+		;
+		
+AttributeArguments
+	::= LPAREN PositionalArgumentList_Opt RPAREN |
+		LPAREN PositionalArgumentList COMMA NamedArgumentList RPAREN |
+		LPAREN NamedArgumentList RPAREN
+		;
+		
+PositionalArgumentList
+	::= PositionalArgument |
+		PositionalArgumentList COMMA PositionalArgument
+		;
+
+PositionalArgument
+	::= AttributeArgumentExpression
+		;
+		
+NamedArgumentList
+	::= NamedArgument |
+		NamedArgumentList COMMA NamedArgument
+		;
+		
+NamedArgument
+	::= IDENTIFIER EQ AttributeArgumentExpression
+		;
+		
+AttributeArgumentExpression
+	::= Expression
+		;
+				
 /* -------------------------------------------------- *
  *                   Possibilities                    *
  * -------------------------------------------------- */
@@ -727,6 +1556,10 @@ Operator
 		COMP | PLUSPLUS | MINUSMINUS | TRUE | FALSE
 		;
 		
+IntegralType_Possibilities
+	::= SBYTE | BYTE | SHORT | USHORT | INT | UINT | LONG | ULONG | CHAR
+		;
+		
 ClassMemberDeclaration_Possibilities
 	::= ConstantDeclaration |
 		FieldDeclaration |
@@ -741,20 +1574,65 @@ ClassMemberDeclaration_Possibilities
 		TypeDeclaration
 		;
 		
+StructMemberDeclaration_Possibilities
+	::= ConstantDeclaration |
+		FieldDeclaration |
+		MethodDeclaration |
+		PropertyDeclaration |
+		EventDeclaration |
+		IndexerDeclaration |
+		OperatorDeclaration |
+		ConstructorDeclaration |
+		StaticConstructorDeclaration |
+		TypeDeclaration
+		;
+		
+EmbeddedStatement_Possibilities
+	::= Block |
+		EmptyStatement |
+		ExpressionStatement |
+		SelectionStatement |
+		IterationStatement |
+		JumpStatement |
+		TryStatement |
+		CheckedStatement |
+		UncheckedStatement |
+		LockStatement |
+		UsingStatement
+		;
+		
+StatementExpression_Possibilities
+	::= InvocationExpression |
+		ObjectCreationExpression |
+		Assignment |
+		PostIncrementExpression |
+		PostDecrementExpression |
+		PreIncrementExpression |
+		PreDecrementExpression
+		;
+		
 /* -------------------------------------------------- *
  *                     Repetition                     *
  * -------------------------------------------------- */
  
-Colon_ClassType
-	::= COLON ClassType
-		;
-		
 AttributesOpt_ModifiersOpt_Event_Type
 	::= Attributes_Opt Modifiers_Opt EVENT type
 		;
 
 Operator_Type_Lparen_Type_Identifier_Rparen
 	::= OPERATOR type LPAREN type IDENTIFIER RPAREN
+		;
+		
+AttributesOpt_Get_Semicolon
+	::= Attributes_Opt GET SEMICOLON
+		;
+		
+AttributesOpt_Set_Semicolon
+	::= Attributes_Opt SET SEMICOLON
+		;
+		
+AttibutesOpt_Identifier
+	::= Attributes_Opt IDENTIFIER
 		;
  
 /* -------------------------------------------------- *
@@ -778,7 +1656,7 @@ Semicolon_Opt
 		;
 		
 Attributes_Opt
-	::= | attributes
+	::= | Attributes
 		;
 		
 ClassBase_Opt
@@ -805,6 +1683,98 @@ ConstructorInitializer_Opt
 	::= | ConstructorInitializer
 		;
 		
+StructMemberDeclarations_Opt
+	::= | StructMemberDeclarations
+		;
+		
+StructInterfaces_Opt
+	::= | StructInterfaces
+		;
+		
 ArgumentList_Opt
-	::= | ArgumentList
+	::= | argument_list
+		;
+
+DimSeparators_Opt
+	::= | DimSeparators
+		;
+		
+VariableInitializerList_Opt
+	::= | VariableInitializerList
+		;
+		
+InterfaceBase_Opt
+	::= | InterfaceBase
+		;
+		
+InterfaceMemberDeclarations_Opt
+	::= | InterfaceMemberDeclarations
+		;
+		
+EnumBase_Opt
+	::= | EnumBase
+		;
+		
+EnumMemberDeclarations_Opt
+	::= | EnumMemberDeclarations
+		;
+		
+AttributeTargetSpecifier_Opt
+	::= | AttributeTargetSpecifier
+		;
+		
+AttributeArguments_Opt
+	::= | AttributeArguments
+		;
+		
+PositionalArgumentList_Opt
+	::= | PositionalArgumentList
+		;
+		
+Comma_Opt
+	::= | COMMA
+		;
+		
+StatementList_Opt
+	::= | StatementList
+		;
+		
+SwitchSections_Opt
+	::= | SwitchSections
+		;
+		
+ForInitializer_Opt
+	::= | ForInitializer
+		;
+		
+ForCondition_Opt
+	::= | ForCondition
+		;
+		
+ForIterator_Opt
+	::= | ForIterator
+		;
+		
+Expression_Opt
+	::= | Expression
+		;
+		
+GeneralCatchClause_Opt
+	::= | GeneralCatchClause
+		;
+		
+SpecificCatchClauses_Opt
+	::= | SpecificCatchClauses
+		;
+		
+Identifier_Opt
+	::= | IDENTIFIER
+		;
+		
+RankSpecifiers_Opt
+	::= | RankSpecifiers
+		;
+		
+ArrayInitializer_Opt
+	::= | ArrayInitializer
 		;

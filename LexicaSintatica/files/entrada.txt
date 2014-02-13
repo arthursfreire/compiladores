@@ -1,9 +1,216 @@
-using id;
+// using
+using teste = teste.teste;
 
-namespace SampleNamespace {
+// global attribute
+[module: teste, teste]
 
-	new class hello {
-		public void Main();
-		void teste();
-	};
-}
+// namespace
+namespace teste {
+	
+	// using
+	using identificador = teste;
+	
+	// class
+	class Teste {
+		
+		// const
+		const int teste = teste, arthur = teste;
+		
+		// field
+		// error on modifier
+		int teste = 3 + 4, arthur, merda = {9, 9,};
+		
+		// method
+		// error on type, only accept void
+		[param: teste] new void teste([field: teste] new int teste, double att, [field: teste] double [,,,,,,] teste) {
+			
+			// labeled statement		
+			teste : int teste = {{}, {}, 3+4}, teste;
+			teste2 : const double teste = 3+5, merda = 6+9;
+			
+			// declaration statement
+			string teste;
+			const object arthur = "Arthur";
+			
+			// embedded statement
+			
+			// invocation expression
+			teste(ref teste, out teste, 4, teste);
+			
+			// object creation expression
+			new boolean(5, 6, 7, ref teste, out roupa);
+			
+			// assignment
+			"string" = 4;
+			
+			// post increment
+			teste++;
+			
+			// post decrement
+			merda--;
+			
+			// pre decrement
+			--teste;
+			
+			// pre increment
+			++merda;
+			
+			// selection statement
+			
+			// if statement
+			if (teste == teste) {
+				
+			} else {
+				
+			}
+			
+			// switch statement
+			switch ("merda" <<= arthur) {
+				case 4:
+					++teste;
+					--teste;
+					if (porra != arthur) {}
+				default:
+					;
+			}
+			
+			// while
+			while ("merda" <<= arthur) {++chupaaaaaaaa;}
+			
+			// do while
+			do ; while (carai > buceta);
+			
+			// for statement
+			for (int i = 0; i < 4; i++, b--) {carai();}
+			
+			// foreach
+			foreach (bool pica in 9 > 9) {}
+			
+			// break
+			break;
+			
+			// continue
+			continue;
+			
+			// goto
+			goto carai;
+			goto case carai;
+			goto default;
+			
+			// try
+			try {
+			} catch (Carai carai) {
+			} finally {
+			}
+			
+			// checked
+			checked{}
+			
+			// unchecked
+			unchecked{}
+			
+			// lock
+			lock (expression){}
+			
+			
+		}
+		
+		// property
+		// error when declaring attributes followed by modifiers, or just modifiers
+		// but no error when declaring only attributes
+		[param: teste] float teste {
+		
+			// get accessor
+			set {}
+			get {}
+			
+		}
+		
+		// event
+		event double teste {
+		
+			// add and remove accessors
+			add {}
+			remove {}
+		}
+		
+		// indexer
+		// same error as in property
+		[param: teste] int teste.this [int teste, double teste] {
+			set {}
+			get {}
+		}
+		
+		// unary operator
+		[param: teste] public static int operator > (float teste) {
+		
+		}
+		
+		// binary operator
+		public int operator > (float teste, int teste);
+		
+		// conversion operator
+		[param: teste] public implicit operator int(double teste) {
+		
+		}
+		
+		// constructor
+		// same error as in property
+		// maybe related to static constructor
+		[param: teste] Teste(double teste) {
+		
+		}
+		
+		// static constructor
+		// accepting all modifiers
+		static private Teste() {
+		
+		}
+		
+		// destructor
+		extern ~ Teste() {
+		
+		}
+		
+	}
+
+	// struct	
+	[param: teste] struct Teste : teste, merda, merda {
+		
+	}
+	
+	// interface
+	[param: teste] interface Teste {
+		
+		// interface method
+		// must only accept new or empty modifier
+		public void teste();
+		
+		// interface property
+		// must only accept new or empty modifier
+		[param: teste] public int teste {
+			[field: teste] get;
+		}
+		
+		// interface event
+		// must only accept new or empty modifier
+		[param: teste] public event int teste;
+		
+		// interface indexer
+		// must only accept new or empty modifier
+		new int this [int teste, double teste] {
+			[field: teste] get;
+		} 
+		
+	}
+	
+	// enum
+	public enum Teste {
+		teste, teste, teste, teste, teste = 3+4,	
+	}
+	
+	// delegate
+	[param: teste] public private delegate void teste(int teste, double teste);
+	
+	
+};

@@ -152,7 +152,7 @@ Identifier = ({Letter} | "_") ({Letter} | {Digit} | "_")*
 	"virtual"			{ return symbol(sym.VIRTUAL); }
 	"void"				{ return symbol(sym.VOID); }
 	"volatile"			{ return symbol(sym.VOLATILE); }
-	"while"				{ return symbol(sym.WHILE); }
+	"while"				{ return symbol(sym.WHILE); }	
 	
 	/* boolean literals */
  	"true"                         { return symbol(sym.TRUE); }
@@ -167,7 +167,21 @@ Identifier = ({Letter} | "_") ({Letter} | {Digit} | "_")*
   	
   	/* add and remove */
   	"add"						   { return symbol(sym.ADD); }
-  	"remove"					   { return symbol(sym.REMOVE); } 
+  	"remove"					   { return symbol(sym.REMOVE); }
+  	
+  	/* global-attribute-section */
+  	"assembly"					   { return symbol(sym.ASSEMBLY); }
+  	
+  	/* attribute-target */
+  	"field"						   { return symbol(sym.FIELD); }
+  	"event"						   { return symbol(sym.EVENT); }
+  	"method"					   { return symbol(sym.METHOD); }
+  	"module"					   { return symbol(sym.MODULE); }
+  	"param"						   { return symbol(sym.PARAM); }
+  	"property"					   { return symbol(sym.PROPERTY); }
+  	"type"					   	   { return symbol(sym.TYPE); }
+
+  	
   	
   	/* operators and punctuators */
   	"="                            { return symbol(sym.EQ); }
