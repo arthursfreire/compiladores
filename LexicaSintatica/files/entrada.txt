@@ -1,13 +1,19 @@
-using teste = teste.teste.teste.teste.teste;
-using teste;
+using teste = teste.teste;
 
-[module: teste, teste, teste.teste,]
+[module: teste, teste]
 
 namespace teste {
 	
-	using identificador = teste.teste.teste.teste.teste;
+	using identificador = teste;
 	
-	public class Teste {
+	class Teste {
+		
+		const int teste = teste, arthur = teste;
+		
+		int teste = 3 + 4, arthur, merda = {9, 9,};
+		
+		[param: teste] new void teste();
+	
 	};
 	
 };

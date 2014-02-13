@@ -225,7 +225,6 @@ non terminal	literal;
  *                 Types Declarations                 *
  * -------------------------------------------------- */
 
-non terminal	ClassType;
 non terminal	InterfaceType;
 non terminal	ArrayType;
 
@@ -439,6 +438,7 @@ non terminal	EnumMemberDeclaration;
  
 non terminal	GlobalAttributeSections;
 non terminal	GlobalAttributeSection;
+non terminal	GlobalAttributeTargetSpecifier;
 non terminal	Attributes;
 non terminal	AttributeSections;
 non terminal	AttributeSection;
@@ -473,7 +473,6 @@ non terminal	StatementExpression_Possibilities;
  *               Repetition Declarations              *
  * -------------------------------------------------- */
  
-non terminal	Colon_ClassType;
 non terminal	AttributesOpt_ModifiersOpt_Event_Type;
 non terminal	Operator_Type_Lparen_Type_Identifier_Rparen;
 non terminal	AttributesOpt_Get_Semicolon;
@@ -506,7 +505,7 @@ non terminal	EnumBase_Opt;
 non terminal	EnumMemberDeclarations_Opt;
 non terminal	AttributeTargetSpecifier_Opt;
 non terminal	AttributeArguments_Opt;
-non terminal	PositionalArgument_Opt;
+non terminal	PositionalArgumentList_Opt;
 non terminal	Comma_Opt;
 non terminal	StatementList_Opt;
 non terminal	SwitchSections_Opt;
@@ -533,6 +532,7 @@ precedence left 	LPAREN, RPAREN;
 precedence left 	IF, ELSE, RETURN, CONTINUE, BREAK;
 precedence left		CATCH, WHILE;
 precedence left		FINALLY;
+precedence left		DOT;
 
 
 
@@ -564,7 +564,8 @@ type_name
 		;
 		
 namespace_or_type_name
-	::= IDENTIFIER namespace_or_type_name_line
+	::= IDENTIFIER | 
+		namespace_or_type_name DOT IDENTIFIER
 		;
 		
 namespace_or_type_name_line
@@ -857,7 +858,7 @@ LocalVariableDeclarators
 		
 LocalVariableDeclarator
 	::= IDENTIFIER |
-		IDENTIFIER EQ LocalVariableInitializer
+		IDENTIFIER EQ LocalVariableDeclarator
 		;
 		
 LocalVariableInitializer
@@ -1006,7 +1007,7 @@ SpecificCatchClauses
 		;
 		
 SpecificCatchClause
-	::= CATCH LPAREN ClassType Identifier_Opt RPAREN Block
+	::= CATCH LPAREN type Identifier_Opt RPAREN Block
 		;
 		
 GeneralCatchClause
@@ -1045,6 +1046,7 @@ ResourceAcquisition
 compilation_unit
 	::= UsingDirectives_Opt GlobalAttributes_Opt NamespaceMemberDeclarations_Opt
 		;
+
 
 NamespaceDeclaration
 	::= NAMESPACE QualifiedIdentifier NamespaceBody Semicolon_Opt
@@ -1104,14 +1106,14 @@ class_declaration
 		;
 		
 ClassBase
-	::= Colon_ClassType |
+	::= COLON type |
 		COLON InterfaceTypeList |
-		Colon_ClassType COMMA InterfaceTypeList
+		COLON type COMMA InterfaceTypeList
 		;
 		
 InterfaceTypeList
-	::= InterfaceType |
-		InterfaceTypeList COMMA InterfaceType
+	::= type_name |
+		InterfaceTypeList COMMA type_name
 		;
 		
 ClassBody
@@ -1501,7 +1503,7 @@ AttributeName
 		;
 		
 AttributeArguments
-	::= LPAREN PositionalArgument_Opt RPAREN |
+	::= LPAREN PositionalArgumentList_Opt RPAREN |
 		LPAREN PositionalArgumentList COMMA NamedArgumentList RPAREN |
 		LPAREN NamedArgumentList RPAREN
 		;
@@ -1615,10 +1617,6 @@ StatementExpression_Possibilities
  *                     Repetition                     *
  * -------------------------------------------------- */
  
-Colon_ClassType
-	::= COLON ClassType
-		;
-		
 AttributesOpt_ModifiersOpt_Event_Type
 	::= Attributes_Opt Modifiers_Opt EVENT type
 		;
@@ -1638,7 +1636,6 @@ AttributesOpt_Set_Semicolon
 AttibutesOpt_Identifier
 	::= Attributes_Opt IDENTIFIER
 		;
-
  
 /* -------------------------------------------------- *
  *                      Optional                      *
@@ -1732,8 +1729,8 @@ AttributeArguments_Opt
 	::= | AttributeArguments
 		;
 		
-PositionalArgument_Opt
-	::= | PositionalArgument
+PositionalArgumentList_Opt
+	::= | PositionalArgumentList
 		;
 		
 Comma_Opt
