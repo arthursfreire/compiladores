@@ -17,12 +17,12 @@ namespace teste {
 		const int teste = teste, arthur = teste;
 		
 		// field
-		// error on modifier
-		int teste = 3 + 4, arthur, merda = {9, 9,};
+		// don't accept no modifiers
+		public int teste = 3 + 4, arthur, merda = {9, 9,};
 		
 		// method
-		// error on type, only accept void
-		[param: teste] new void teste([field: teste] new int teste, double att, [field: teste] double [,,,,,,] teste) {
+		// don't accept no modifiers
+		public void teste([field: teste] new int teste, double att, [field: teste] double [,,,,,,] teste) {
 			
 			// labeled statement		
 			teste : int teste = {{}, {}, 3+4}, teste;
@@ -116,9 +116,8 @@ namespace teste {
 		}
 		
 		// property
-		// error when declaring attributes followed by modifiers, or just modifiers
-		// but no error when declaring only attributes
-		[param: teste] float teste {
+		// don't accept no modifiers
+		public private float teste {
 		
 			// get accessor
 			set {}
@@ -135,8 +134,8 @@ namespace teste {
 		}
 		
 		// indexer
-		// same error as in property
-		[param: teste] int teste.this [int teste, double teste] {
+		// don't accept no modifiers
+		private int teste.this [int teste, double teste] {
 			set {}
 			get {}
 		}
@@ -155,9 +154,8 @@ namespace teste {
 		}
 		
 		// constructor
-		// same error as in property
-		// maybe related to static constructor
-		[param: teste] Teste(double teste) {
+		// don't accept no modifiers
+		[param: teste] public Teste(double teste) {
 		
 		}
 		
@@ -183,21 +181,21 @@ namespace teste {
 	[param: teste] interface Teste {
 		
 		// interface method
-		// must only accept new or empty modifier
-		public void teste();
+		// don't accept no modifiers
+		new void teste();
 		
 		// interface property
-		// must only accept new or empty modifier
-		[param: teste] public int teste {
+		// don't accept no modifiers
+		[param: teste] new int teste {
 			[field: teste] get;
 		}
 		
 		// interface event
-		// must only accept new or empty modifier
-		[param: teste] public event int teste;
+		// don't accept no modifiers
+		[param: teste] new event int teste;
 		
 		// interface indexer
-		// must only accept new or empty modifier
+		// don't accept no modifiers
 		new int this [int teste, double teste] {
 			[field: teste] get;
 		} 
