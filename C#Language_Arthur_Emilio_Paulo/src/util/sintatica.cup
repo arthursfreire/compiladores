@@ -1,6 +1,12 @@
-package projeto;
+package util;
 
 import java_cup.runtime.*;
+import util.*;
+import metamodel.*;
+import java.util.ArrayList;
+import java.util.List;
+
+init with {: SemanticAnalysis.Parser = this;              :};
 
 parser code {: 
      public void report_error(String message, Object info) {
