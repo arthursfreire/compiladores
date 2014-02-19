@@ -4,7 +4,7 @@
 // Tue Feb 18 20:56:03 BRT 2014
 //----------------------------------------------------
 
-package projeto;
+package util;
 
 /** CUP generated class containing symbol constants. */
 public class sym {
