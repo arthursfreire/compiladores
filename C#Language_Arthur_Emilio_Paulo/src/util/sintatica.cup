@@ -2,11 +2,9 @@ package util;
 
 import java_cup.runtime.*;
 import util.*;
-import metamodel.*;
+import semantica.*;
 import java.util.ArrayList;
 import java.util.List;
-
-init with {: SemanticAnalysis.Parser = this;              :};
 
 parser code {: 
      public void report_error(String message, Object info) {
@@ -550,11 +548,12 @@ start with compilation_unit;
 
 
 literal
-	::= TRUE | FALSE |
-		INTEGER_LITERAL |
-		REAL_LITERAL |
-		STRING_LITERAL |
-		NULL
+	::= TRUE:t {: Logger.print("BooleanLiteral: " + t); RESULT = "bool"; :} |
+		FALSE:f {: Logger.print("BooleanLiteral: " + f); RESULT = "bool"; :} |
+		INTEGER_LITERAL:i {: Logger.print("IntegerLiteral: " + i); RESULT = "int"; :} |
+		REAL_LITERAL:r {: Logger.print("RealLiteral: " + r); :} |
+		STRING_LITERAL:s {: Logger.print("StringLiteral: " + s); RESULT = "string"; :} |
+		NULL:n  {: Logger.print("NullLiteral: " + n); :}
 		;
 
 /* -------------------------------------------------- *
@@ -570,8 +569,8 @@ type_name
 		;
 		
 namespace_or_type_name
-	::= IDENTIFIER | 
-		namespace_or_type_name DOT IDENTIFIER
+	::= IDENTIFIER:i {: Logger.print("IDENTIFIER: " + i); RESULT = i; :} | 
+		namespace_or_type_name:n DOT IDENTIFIER:i {: RESULT = n + "." + i; :}
 		;
 		
 /* -------------------------------------------------- *
@@ -579,16 +578,16 @@ namespace_or_type_name
  * -------------------------------------------------- */
  
 type
-	::= namespace_or_type_name |
-		IntegralType_Possibilities |
-		BOOL |
-		FLOAT |
-		DOUBLE |
-		DECIMAL |
-		OBJECT |
-		STRING |
-		VOID |
-		array_type
+	::= namespace_or_type_name:n {: Logger.print("Type: namespace_or_type_name"); RESULT = n; :} |
+		IntegralType_Possibilities:i {: Logger.print("Type: Integral Possibilities"); RESULT = i; :} |
+		BOOL:b {: Logger.print("Type: bool"); RESULT = new Type("bool"); :} |
+		FLOAT:f {: Logger.print("Type: float"); RESULT = new Type("float"); :} |
+		DOUBLE:d {: Logger.print("Type: double"); RESULT = new Type("double"); :} |
+		DECIMAL:d {: Logger.print("Type: decimal"); RESULT = new Type("decimal"); :} |
+		OBJECT:o {: Logger.print("Type: object"); RESULT = new Type("object"); :} |
+		STRING:s {: Logger.print("Type: string"); RESULT = new Type("string"); :} |
+		VOID:v {: Logger.print("Type: void"); RESULT = new Type("void"); :} |
+		array_type:a {: Logger.print("Type: ArrayType Doing nothing."); :}
 		;
 		 
 /* -------------------------------------------------- *
@@ -615,35 +614,38 @@ Argument
 		;
 		
 PrimaryExpression
-	::= PrimaryNoArrayCreationExpression |
+	::= PrimaryNoArrayCreationExpression:p
+		{: Logger.print("PrimaryExpression PrimaryNoArrayCreationExpression: " + p);
+		   RESULT = p; :} |
 		ArrayCreationExpression
 		;
 		
 PrimaryNoArrayCreationExpression
-	::= literal |
-		IDENTIFIER |
-		ParenthesizedExpression |
-		MemberAccess |
-		InvocationExpression |
-		ElementAccess |
-		ThisAccess |
-		BaseAccess |
-		PostIncrementExpression |
-		PostDecrementExpression |
-		ObjectCreationExpression |
-		DelegateCreationExpression |
-		TypeofExpression |
-		SizeofExpression |
-		CheckedExpression |
-		UncheckedExpression
+	::= literal:l {: Logger.print("PrimaryNoArrayCreationExpression literal: " + l); RESULT = l; :} |
+		IDENTIFIER:i {: Logger.print("PrimaryNoArrayCreationExpression IDENTIFIER: " + i); RESULT = i; :}  |
+		ParenthesizedExpression:p {: Logger.print("PrimaryNoArrayCreationExpression ParenthesizedExpression: " + p); RESULT = p; :}  |
+		MemberAccess {: Logger.print("PrimaryNoArrayCreationExpression MemberAccess"); :} |
+		InvocationExpression:i {: Logger.print("PrimaryNoArrayCreationExpression InvocationExpression: " + i); RESULT = i; :}  |
+		ElementAccess {: Logger.print("PrimaryNoArrayCreationExpression ElementAccess"); :} |
+		ThisAccess {: Logger.print("PrimaryNoArrayCreationExpression ThisAccess"); :} |
+		BaseAccess {: Logger.print("PrimaryNoArrayCreationExpression BaseAccess"); :} |
+		PostIncrementExpression:p {: Logger.print("PrimaryNoArrayCreationExpression PostIncrementExpression: " + p); RESULT = p; :} |
+		PostDecrementExpression:p {: Logger.print("PrimaryNoArrayCreationExpression PostDecrementExpression: " + p); RESULT = p; :} |
+		ObjectCreationExpression {: Logger.print("PrimaryNoArrayCreationExpression ObjectCreationExpression"); :} |
+		DelegateCreationExpression  {: Logger.print("PrimaryNoArrayCreationExpression DelegateCreationExpression"); :}|
+		TypeofExpression  {: Logger.print("PrimaryNoArrayCreationExpression TypeofExpression"); :} |
+		SizeofExpression {: Logger.print("PrimaryNoArrayCreationExpression SizeofExpression"); :} |
+		CheckedExpression {: Logger.print("PrimaryNoArrayCreationExpression CheckedExpression"); :} |
+		UncheckedExpression {: Logger.print("PrimaryNoArrayCreationExpression UncheckedExpression"); :}
 		;
 		
 ParenthesizedExpression
-	::= LPAREN Expression RPAREN
+	::= LPAREN Expression:e RPAREN
+		{: Logger.print("ParethensizedExpression: " + e); RESULT = e; :}
 		;
 		
 MemberAccess
-	::= PrimaryExpression DOT IDENTIFIER |
+	::= PrimaryExpression DOT IDENTIFIER |		
 		PredefinedType DOT IDENTIFIER
 		;
 		
@@ -675,11 +677,13 @@ BaseAccess
 		;
 
 PostIncrementExpression
-	::= PrimaryExpression PLUSPLUS
+	::= PrimaryExpression:p PLUSPLUS
+		{: Logger.print("PostIncrementExpression: " + p); RESULT = p; :}
 		;
 		
 PostDecrementExpression
-	::= PrimaryExpression MINUSMINUS
+	::= PrimaryExpression:p MINUSMINUS
+		{: Logger.print("PostDecrementExpression: " + p); RESULT = p; :}
 		;
 		
 ObjectCreationExpression
@@ -688,7 +692,7 @@ ObjectCreationExpression
 		;
 		
 ArrayCreationExpression
-	::= NEW NonArrayType LBRACK ExpressionList RBRACK RankSpecifiers_Opt ArrayInitializer_Opt |
+	::= NEW type LBRACK ExpressionList RBRACK RankSpecifiers_Opt ArrayInitializer_Opt |
 		NEW array_type ArrayInitializer
 		;
 		
@@ -709,23 +713,42 @@ UncheckedExpression
 		;
 		
 UnaryExpression
-	::= PrimaryExpression |
-		PLUS UnaryExpression |
-		MINUS UnaryExpression |
-		NOT UnaryExpression |
-		COMP UnaryExpression |
-		MULT UnaryExpression |
-		PreIncrementExpression |
-		PreDecrementExpression |
+	::= PrimaryExpression:p 
+		{: Logger.print("UnaryExpression PrimaryExpression: " + p); RESULT = p; :} |
+		
+		PLUS UnaryExpression:u 
+		{: Logger.print("UnaryExpression PLUS UnaryExpression: " + u); RESULT = u; :} |
+		
+		MINUS UnaryExpression:u 
+		{: Logger.print("UnaryExpression MINUS UnaryExpression: " + u); RESULT = u; :} |
+		
+		NOT UnaryExpression:u 
+		{: Logger.print("UnaryExpression NOT UnaryExpression: " + u); RESULT = u; :} |
+		
+		COMP UnaryExpression:u 
+		{: Logger.print("UnaryExpression COMP UnaryExpression: " + u); RESULT = u; :} |
+		
+		MULT UnaryExpression:u 
+		{: Logger.print("UnaryExpression MULT UnaryExpression: " + u); RESULT = u; :} |
+		
+		PreIncrementExpression:p 
+		{: Logger.print("UnaryExpression PreIncrementExpression: " + p); RESULT = p; :} |
+		
+		PreDecrementExpression:p 
+		{: Logger.print("UnaryExpression PostIncrementExpression: " + p); RESULT = p; :} |
+		
 		CastExpression
+		{: Logger.print("UnaryExpression CastExpression"); :}
 		;
 		
 PreIncrementExpression
-	::= PLUSPLUS PrimaryExpression
+	::= PLUSPLUS PrimaryExpression:p
+		{: Logger.print("PreIncrementExpression: " + p); RESULT = p; :}
 		;
 		
 PreDecrementExpression
-	::= MINUSMINUS PrimaryExpression
+	::= MINUSMINUS PrimaryExpression:p
+		{: Logger.print("PreDecrementExpression: " + p); RESULT = p; :}
 		;
 		
 CastExpression
@@ -733,67 +756,88 @@ CastExpression
 		;
 		
 MultiplicativeExpression
-	::= UnaryExpression |
+	::= UnaryExpression:u 
+		{: Logger.print("MultiplicativeExpression UnaryExpression"); RESULT = u; :} |
 		MultiplicativeExpression MULT UnaryExpression |
 		MultiplicativeExpression DIV UnaryExpression |
 		MultiplicativeExpression MOD UnaryExpression
 		;
 		
 AdditiveExpression
-	::= MultiplicativeExpression |
+	::= MultiplicativeExpression:m 
+		{: Logger.print("AdditiveExpression MultiplicativeExpression"); RESULT = m; :} |
+		
 		AdditiveExpression PLUS MultiplicativeExpression |
 		AdditiveExpression MINUS MultiplicativeExpression
 		;
 		
 ShiftExpression
-	::= AdditiveExpression |
+	::= AdditiveExpression:a 
+		{: Logger.print("ShiftExpression AdditiveExpression"); RESULT = a; :} |
+		
 		ShiftExpression LSHIFT AdditiveExpression |
 		ShiftExpression RSHIFT AdditiveExpression
 		;
 		
 RelationalExpression
-	::= ShiftExpression |
+	::= ShiftExpression:s 
+		{: Logger.print("Relationalxpression ShiftExpression"); RESULT = s; :} |
+		
 		RelationalExpression LT ShiftExpression |
+		
 		RelationalExpression GT ShiftExpression |
+		
 		RelationalExpression LTEQ ShiftExpression |
+		
 		RelationalExpression GTEQ ShiftExpression |
+		
 		RelationalExpression IS ShiftExpression |
+		
 		RelationalExpression AS ShiftExpression
 		;
 		
 EqualityExpression
-	::= RelationalExpression |
+	::= RelationalExpression:r 
+		{: Logger.print("EqualityExpression Relationalxpression"); RESULT = r; :} |
+		
 		EqualityExpression EQEQ RelationalExpression |
 		EqualityExpression NOTEQ RelationalExpression
 		;
 		
 AndExpression
-	::= EqualityExpression | 
+	::= EqualityExpression:e 
+		{: Logger.print("AndExpression EqualityExpression"); RESULT = e; :} | 
 		EqualityExpression AND EqualityExpression
 		;
 		
 ExclusiveOrExpression
-	::= AndExpression |
+	::= AndExpression:a 
+		{: Logger.print("ExclusiveOrExpression AndExpression"); RESULT = a; :} |
 		ExclusiveOrExpression XOR AndExpression
 		;
 		
 InclusiveOrExpression
-	::= ExclusiveOrExpression |
+	::= ExclusiveOrExpression:e 
+		{: Logger.print("InclusiveOrExpression ExclusiveOrExpression"); RESULT = e; :} |
 		InclusiveOrExpression OR ExclusiveOrExpression
 		;
 		
 ConditionalAndExpression
-	::= InclusiveOrExpression |
+	::= InclusiveOrExpression:i 
+		{: Logger.print("ConditionalAndExpression InclusiveOrExpression"); RESULT = i; :} |
 		ConditionalAndExpression ANDAND InclusiveOrExpression
 		;
 		
 ConditionalOrExpression
-	::= ConditionalAndExpression |
+	::= ConditionalAndExpression:c 
+		{: Logger.print("ConditionalOrExpression ConditionalAndExpression"); RESULT = c; :} |
 		ConditionalOrExpression OROR ConditionalAndExpression
 		;
 		
 ConditionalExpression
-	::= ConditionalOrExpression |
+	::= ConditionalOrExpression:c 
+		{: Logger.print("ConditionalExpression ConditionalOrExpression"); RESULT = c; :} |
+		
 		ConditionalOrExpression QUESTION Expression COLON Expression
 		;
 		
@@ -806,7 +850,9 @@ AssignmentOperator
 		;
 		
 Expression
-	::= ConditionalExpression |
+	::= ConditionalExpression:c
+		{: Logger.print("Expression ConditionalExpression");
+		   RESULT = c; :} |
 		Assignment
 		;
 		
@@ -820,7 +866,9 @@ ConstantExpression
 
 statement
 	::= LabeledStatement |
-		DeclarationStatement |
+		DeclarationStatement:d
+		{: Logger.print("statement DeclarationStatement: " + d); RESULT = d; :} |
+		
 		EmbeddedStatement
 		;
 		
@@ -829,12 +877,23 @@ EmbeddedStatement
 		;
 		
 Block
-	::= LBRACE StatementList_Opt RBRACE
+	::= LBRACE StatementList:s RBRACE 
+		{: Logger.print("Block StatementList: " + s); 
+		   RESULT = s; :} |
+		LBRACE RBRACE
 		;
 		
 StatementList
-	::= statement |
-		StatementList statement
+	::= statement:s
+		{: Logger.print("StatementList statement: " + s + " class: " + s.getClass()); 
+		   MethodItems methodItems = new MethodItems();
+		   methodItems.addItem(s);
+		   RESULT = methodItems; :} |
+	
+		StatementList:sl statement:s
+		{: Logger.print("StatementList StatementList: " + sl + " class: " + sl.getClass() + " statement: " + s + " class: " + s.getClass()); 
+		   ((MethodItems) sl).addItem(s);
+		   RESULT = sl; :}
 		;
 		
 EmptyStatement
@@ -846,26 +905,53 @@ LabeledStatement
 		;
 		
 DeclarationStatement
-	::= LocalVariableDeclaration SEMICOLON |
+	::= LocalVariableDeclaration:l SEMICOLON 
+		{: Logger.print("DeclarationStatement LocalVariableDeclaration: " + l); RESULT = l; :} |
 		LocalConstantDeclaration SEMICOLON
 		;
 		
 LocalVariableDeclaration
-	::= type LocalVariableDeclarators
+	::= type:t LocalVariableDeclarators:vars
+		{: Logger.print("LocalVariableDeclaration type: " + t + " Declaration: " + vars);
+		   List<IdentifierValueType> idsValues = (ArrayList<IdentifierValueType>) vars;
+		   for (IdentifierValueType var : idsValues) {
+		       Type type = new Type(t.toString());
+		       if (var.valueType != null && (!((Type) var.valueType).equals(type))) {
+		           throw new SemanticException("Incompatible Types on Field " + var.identifier + " Initializer");
+		       } else {
+		           Variable v = new Variable((Type) t, var.identifier);
+		           RESULT = v;
+		       }
+		   }
+		:}
 		;
 		
 LocalVariableDeclarators
-	::= LocalVariableDeclarator |
-		LocalVariableDeclarators COMMA LocalVariableDeclarator
+	::= LocalVariableDeclarator:l 
+		{: Logger.print("LocalVariableDeclarators: " + l);
+		   List<IdentifierValueType> vars = new ArrayList<IdentifierValueType>(); 
+		   vars.add((IdentifierValueType) l); 
+		   RESULT = vars; :} |
+	
+		LocalVariableDeclarators:vars COMMA LocalVariableDeclarator:l
+		{: Logger.print("LocalVariableDeclarators COMMA LocalVariableDeclarator: " + vars); 
+		   ((ArrayList<IdentifierValueType>) vars).add((IdentifierValueType) l); 
+		   RESULT = vars; :}
 		;
 		
 LocalVariableDeclarator
-	::= IDENTIFIER |
-		IDENTIFIER EQ LocalVariableInitializer
+	::= IDENTIFIER:i
+		{: Logger.print("LocalVariableDeclarator IDENTIFIER: " + i);
+		   RESULT = new IdentifierValueType(i.toString()); :} |
+		   
+		IDENTIFIER:i EQ LocalVariableInitializer:l
+		{: Logger.print("VariableDeclarator IDENTIFIER: " + i + " VariableInitializer: " + l);
+		   RESULT = new IdentifierValueType(i.toString(), new Type(l.toString())); :}
 		;
 		
 LocalVariableInitializer
-	::= Expression |
+	::= Expression:e 
+		{: Logger.print("LocalVariableInitializer Expression"); RESULT = e; :}|
 		ArrayInitializer
 		;
 		
@@ -1105,7 +1191,7 @@ TypeDeclaration
  * -------------------------------------------------- */
 
 class_declaration
-	::= Attributes_Opt Modifiers_Opt CLASS IDENTIFIER ClassBase_Opt ClassBody Semicolon_Opt
+	::= Attributes_Opt Modifiers_Opt CLASS IDENTIFIER:i ClassBase_Opt ClassBody Semicolon_Opt
 		;
 		
 ClassBase
@@ -1146,42 +1232,92 @@ ConstantDeclarator
 		;
 		
 FieldDeclaration
-	::= Attributes_Opt Modifiers type VariableDeclarators SEMICOLON
+	::= Attributes_Opt Modifiers type:t VariableDeclarators:vars SEMICOLON
+		{: Logger.print("FieldDeclaration type: " + t + " Declaration: " + vars);
+		   List<IdentifierValueType> idsValues = (ArrayList<IdentifierValueType>) vars;
+		   for (IdentifierValueType var : idsValues) {
+		       Type type = new Type(t.toString());
+		       if (var.valueType != null && (!((Type) var.valueType).equals(type))) {
+		           throw new SemanticException("Incompatible Types on Field " + var.identifier + " Initializer");
+		       } else {
+		           SemanticAnalysis.getInstance().addVariable(new Variable((Type) t, var.identifier));
+		       }
+		   } :}
 		;
 		
 VariableDeclarators
-	::= VariableDeclarator |
-		VariableDeclarators COMMA VariableDeclarator
+	::= VariableDeclarator:v 
+		{: Logger.print("VariableDeclarators: " + v);
+		   List<IdentifierValueType> vars = new ArrayList<IdentifierValueType>(); 
+		   vars.add((IdentifierValueType) v); 
+		   RESULT = vars; :}|
+	
+		VariableDeclarators:vars COMMA VariableDeclarator:v
+		{: Logger.print("VariableDeclarators COMMA VariableDeclarator: " + vars); 
+		   ((ArrayList<IdentifierValueType>) vars).add((IdentifierValueType) v); 
+		   RESULT = vars; :}
 		;
 		
 VariableDeclarator
-	::= IDENTIFIER |
-		IDENTIFIER EQ VariableInitializer
+	::= IDENTIFIER:i
+		{: Logger.print("VariableDeclarator IDENTIFIER: " + i);
+		   RESULT = new IdentifierValueType(i.toString()); :} |
+	
+		IDENTIFIER:i EQ VariableInitializer:v
+		{: Logger.print("VariableDeclarator IDENTIFIER: " + i + " VariableInitializer: " + v);
+		   RESULT = new IdentifierValueType(i.toString(), new Type(v.toString())); :}
 		;
 		
 VariableInitializer
-	::= Expression |
+	::= Expression:e 
+		{: Logger.print("VariableInitializer Expression"); RESULT = e; :} |
 		ArrayInitializer
 		;
 		
 MethodDeclaration
-	::= Attributes_Opt Modifiers type namespace_or_type_name LPAREN FormalParameterList_Opt RPAREN LBRACE StatementList_Opt RBRACE |
-		Attributes_Opt Modifiers type namespace_or_type_name LPAREN FormalParameterList_Opt RPAREN SEMICOLON
+	::= Attributes_Opt Modifiers type:t namespace_or_type_name:n LPAREN RPAREN Block:b
+		{: Logger.print("Method name: " + n + " type: " + t);
+		   Method m = new Method((Type) t, n.toString());
+		   ((MethodItems) b).setMethod(m);
+		   SemanticAnalysis.getInstance().addMethod(m); :} |
+		
+		Attributes_Opt Modifiers type:t namespace_or_type_name:n LPAREN FormalParameterList:f RPAREN Block:b
+		{: List<Parameter> params = ((ArrayList<Parameter>) f); 
+		   Logger.print("Method name: " + n + " type: " + t + " params: " + params.toString());
+		   Method m = new Method((Type) t, n.toString(), params);
+		   ((MethodItems) b).setMethod(m);
+		   SemanticAnalysis.getInstance().addMethod(m); :} |
+		
+		Attributes_Opt Modifiers type:t namespace_or_type_name:n LPAREN RPAREN SEMICOLON 
+		{: Logger.print("Method name: " + n + " type: " + t);  
+		   SemanticAnalysis.getInstance().addMethod(new Method((Type) t, n.toString())); :} |
+		
+		Attributes_Opt Modifiers type:t namespace_or_type_name:n LPAREN FormalParameterList:f RPAREN SEMICOLON
+		{: List<Parameter> params = ((ArrayList<Parameter>) f); 
+		   Logger.print("Method name: " + n + " type: " + t + " params: " + params.toString()); 
+		   SemanticAnalysis.getInstance().addMethod(new Method((Type) t, n.toString(), params)); :}
 		;
 				
 FormalParameterList
-	::= FixedParameters |
+	::= FixedParameters:f
+		{: Logger.print("FormalParameterList: " + f); RESULT = f; :} |
+		
 		FixedParameters COMMA ParameterArray |
+		
 		ParameterArray
 		;
 		
 FixedParameters
-	::= FixedParameter |
-		FixedParameters COMMA FixedParameter
+	::= FixedParameter:f
+		{: Logger.print("FixedParameters: " + f); List<Parameter> params = new ArrayList<Parameter>(); params.add((Parameter) f); RESULT = params; :} |
+		
+		FixedParameters:params COMMA FixedParameter:f
+		{: Logger.print("FixedParameters COMMA FixedParameter"); ((ArrayList<Parameter>) params).add((Parameter) f); RESULT = params; :}
 		;
 		
 FixedParameter
-	::= Attributes_Opt Modifier_Opt type IDENTIFIER
+	::= Attributes_Opt Modifier_Opt type:t IDENTIFIER:i
+		{: Logger.print("FixedParamenter name: " + i + " type: " + t); RESULT = new Parameter((Type) t, i.toString()); :}
 		;
 		
 ParameterArray
@@ -1323,11 +1459,8 @@ StructMemberDeclaration
  * -------------------------------------------------- */
  
 array_type
-	::= NonArrayType RankSpecifiers
+	::= type:t RankSpecifiers {: RESULT = t + "[]"; :}
 		;
-		
-NonArrayType
-	::= type;
 	
 RankSpecifiers
 	::= RankSpecifier |
@@ -1540,7 +1673,15 @@ Operator
 		;
 		
 IntegralType_Possibilities
-	::= SBYTE | BYTE | SHORT | USHORT | INT | UINT | LONG | ULONG | CHAR
+	::= SBYTE {: Logger.print("Integral Possibilities: sbyte"); RESULT = new Type("sbyte"); :} | 
+		BYTE {: Logger.print("Integral Possibilities: byte"); RESULT = new Type("byte"); :} | 
+		SHORT  {: Logger.print("Integral Possibilities: short"); RESULT = new Type("short"); :} |
+		USHORT  {: Logger.print("Integral Possibilities: ushort"); RESULT = new Type("ushort"); :} |
+		INT  {: Logger.print("Integral Possibilities: int"); RESULT = new Type("int"); :} |
+		UINT  {: Logger.print("Integral Possibilities: uint"); RESULT = new Type("uint"); :} |
+		LONG  {: Logger.print("Integral Possibilities: long"); RESULT = new Type("long"); :}  |
+		ULONG  {: Logger.print("Integral Possibilities: ulong"); RESULT = new Type("ulong"); :}  |
+		CHAR  {: Logger.print("Integral Possibilities: char"); RESULT = new Type("char"); :} 
 		;
 		
 ClassMemberDeclaration_Possibilities

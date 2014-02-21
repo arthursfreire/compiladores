@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="/home/arthur/workspace/compiladores/C#Language_Arthur_Emilio_Paulo/lib/java-cup-11a.jar"/>
+	<classpathentry kind="lib" path="/home/arthur/workspace/compiladores/C#Language_Arthur_Emilio_Paulo/lib/java-cup-11a.jar" sourcepath="/home/arthur/.m2/repository/net/sf/squirrel-sql/thirdparty-non-maven/java-cup/0.11a/java-cup-0.11a-sources.jar"/>
 	<classpathentry kind="lib" path="/home/arthur/workspace/compiladores/C#Language_Arthur_Emilio_Paulo/lib/jflex-1.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

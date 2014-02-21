@@ -626,9 +626,8 @@ public class LexicalAnalysis implements java_cup.runtime.Scanner {
   private boolean zzEOFDone;
 
   /* user code: */
-
-	public static String currentLine;
-	   
+    public static String currentLine;
+   
 	private Symbol symbol(int type) {
 		currentLine = "line " + yyline;
 		return new Symbol(type, yyline, yycolumn);
@@ -638,12 +637,6 @@ public class LexicalAnalysis implements java_cup.runtime.Scanner {
 		currentLine = "line " + yyline;
 		return new Symbol(type, yyline, yycolumn, val);
 	}
-	
-	public String current_lexeme(){
-        int l = yyline+1;
-        int c = yycolumn+1;
-    	return "line: " + l + ", column: " + c + ", with : '"+yytext()+"')";
-    }
    	   
 	private void mensagemErro() {
 		throw new RuntimeException("Erro Lexico na linha " + yyline + " e coluna " + yycolumn + " . Nao existe padrao para o lexema: " + yytext());
