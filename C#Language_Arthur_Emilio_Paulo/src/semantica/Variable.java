@@ -4,11 +4,17 @@ public class Variable {
 
 	public Type type;
 	public String name;
-	public Type valueType;
+	public String value;
 
 	public Variable(Type type, String name) {
 		this.type = type;
 		this.name = name;
+	}
+	
+	public Variable(Type type, String name, String value) {
+		this.type = type;
+		this.name = name;
+		this.value = value;
 	}
 
 	public String toString() {

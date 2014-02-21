@@ -1,8 +1,18 @@
 class Programa {
 
-	private int teste(int arth) {
-		int teste;
-		int arthur;
+	private int a = 10;
+	private bool b = true;
+	
+	public void main() {
+		int a = 9;
+		string b = "arthur";
+		
+		if (3 < 4) {
+			bool c = true;
+			int adasd = 5;
+		} else {
+			string teste = "teste";
+		}
 	}
 	
 }

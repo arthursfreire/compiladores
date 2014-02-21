@@ -33,6 +33,7 @@ public class MethodItems {
 		}
 		this.method = m;
 		m.items = this;
+//		m.setMethodItems(this);
 	}
 	
 	private boolean checkParametersAndVariables(Method m) {
@@ -66,6 +67,7 @@ public class MethodItems {
 	
 	@Override
 	public String toString() {
+//		return "Aux: " + this.addAux.toString();
 		return "Aux: " + this.addAux.toString() + "\n" +
 			   "Variables: " + this.variables.toString() + "\n" +
 			   "Statements: " + this.statements.toString();
