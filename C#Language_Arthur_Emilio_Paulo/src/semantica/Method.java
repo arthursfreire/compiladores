@@ -60,4 +60,31 @@ public class Method {
 		Method m = (Method) obj;
 		return (m.name.equals(this.name) && m.type.equals(this.type));
 	}
+
+//	public List<Variable> setMethodItems(MethodItems methodItems, List<Variable> variables) throws SemanticException {
+//		int varIndex = 0;
+//		int stmIndex = 0;
+//		
+//		List<Variable> vars = new ArrayList<Variable>();
+//		
+//		for (int i = 0; i < methodItems.addAux.size(); i++) {
+//			
+//			if (methodItems.addAux.get(i) == methodItems.VARIABLE) {
+//				
+//				if (vars.contains(methodItems.variables.get(varIndex))) {
+//					throw new SemanticException("Already exists a variable within " + toString() + " scope with the same name");
+//				} else {
+//					vars.add(methodItems.variables.get(varIndex));
+//					varIndex++;
+//				}
+//				
+//			} else {
+//				
+//				Statement stm = methodItems.statements.get(stmIndex);
+//				
+//				
+//			}
+//		}
+//		
+//	}
 }
