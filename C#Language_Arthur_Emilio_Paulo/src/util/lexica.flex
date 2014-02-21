@@ -1,4 +1,4 @@
-package projeto;
+package util;
 
 import java_cup.runtime.*;
 
@@ -11,12 +11,15 @@ import java_cup.runtime.*;
 %cup
 
 %{
-	   
+    public static String currentLine;
+   
 	private Symbol symbol(int type) {
+		currentLine = "line " + yyline;
 		return new Symbol(type, yyline, yycolumn);
 	}
    	
 	private Symbol symbol(int type, Object val) {
+		currentLine = "line " + yyline;
 		return new Symbol(type, yyline, yycolumn, val);
 	}
    	   

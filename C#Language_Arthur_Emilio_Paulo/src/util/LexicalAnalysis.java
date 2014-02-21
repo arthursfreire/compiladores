@@ -626,12 +626,15 @@ public class LexicalAnalysis implements java_cup.runtime.Scanner {
   private boolean zzEOFDone;
 
   /* user code: */
-	   
+    public static String currentLine;
+   
 	private Symbol symbol(int type) {
+		currentLine = "line " + yyline;
 		return new Symbol(type, yyline, yycolumn);
 	}
    	
 	private Symbol symbol(int type, Object val) {
+		currentLine = "line " + yyline;
 		return new Symbol(type, yyline, yycolumn, val);
 	}
    	   

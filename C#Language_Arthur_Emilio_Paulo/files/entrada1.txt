@@ -1,0 +1,33 @@
+class Programa {
+
+	private int a = 12;
+	private bool b = true;
+	private string c = "string";
+	
+	public void teste() {
+	
+	}
+	
+	public void teste(int d) {
+	
+	}
+	
+	public void teste(int d, string a) {
+	
+	}
+	
+	public int main() {
+		return 1;
+	}
+	
+	public int main(bool teste) {
+		int c;
+		
+		if (3 > 5) {
+		
+		}
+		
+		return 3;
+	}
+	
+}
